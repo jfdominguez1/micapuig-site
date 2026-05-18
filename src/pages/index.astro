@@ -1,122 +1,283 @@
 ---
 import Base from '../layouts/Base.astro';
+import PhotoPlaceholder from '../components/PhotoPlaceholder.astro';
+import { WORKS, SERIES, COPY } from '../data/works';
+
+const groupsMap: Record<string, string> = COPY.groups;
+const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
 ---
 <Base title="Micaela Puig">
-  <main>
-    <div class="frame">
-      <header class="mark">
-        <span class="dot" aria-hidden="true"></span>
-        <span class="label">En construcción</span>
-      </header>
+  <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <defs>
+      <filter id="mica-grain">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0
+                  0 0 0 0 0
+                  0 0 0 0 0
+                  0 0 0 0.18 0"
+        />
+      </filter>
+    </defs>
+  </svg>
 
-      <section class="title-block">
-        <h1>
-          <span class="name-first">Micaela</span>
-          <span class="name-last">Puig</span>
-        </h1>
-        <p class="lede">
-          Artista. Un sitio en preparación —
-          obra, escritos y exposiciones llegando pronto.
-        </p>
-      </section>
+  <header class="a-header">
+    <button class="a-brand a-link" data-action="reset">Micaela Puig</button>
+    <span class="a-sep">·</span>
+    <button class="a-link is-active" data-view="works">{COPY.tabs.works}</button>
+    <span class="a-sep">·</span>
+    <button class="a-link" data-view="bio">{COPY.tabs.bio}</button>
+    <span class="a-sep">·</span>
+    <button class="a-link" data-view="contact">{COPY.tabs.contact}</button>
 
-      <footer class="foot">
-        <span>©&nbsp;2026</span>
-        <span class="sep" aria-hidden="true">·</span>
-        <span>Buenos Aires</span>
-      </footer>
+    <div class="a-langs">
+      <button class="a-lang is-active" data-lang="ES">ES</button>
+      <span class="a-lang-sep">·</span>
+      <button class="a-lang is-disabled" aria-disabled="true" title="Pronto">EN</button>
+      <span class="a-lang-sep">·</span>
+      <button class="a-lang is-disabled" aria-disabled="true" title="Em breve">PT</button>
     </div>
+  </header>
+
+  <main>
+    <section class="a-works is-active" data-view-section="works">
+      <div class="a-works__sub">
+        <button class="is-active" data-series="all">
+          {COPY.allLabel} <span class="a-works__sub-n">({WORKS.length})</span>
+        </button>
+        {SERIES.map((s, i) => {
+          const count = WORKS.filter(w => w.series === s.id).length;
+          return (
+            <>
+              <span class="a-works__sub-sep">·</span>
+              <button data-series={s.id}>
+                {s.label} <span class="a-works__sub-n">({count})</span>
+              </button>
+            </>
+          );
+        })}
+      </div>
+
+      <div class="a-grid" id="grid">
+        {WORKS.map((w, i) => (
+          <button
+            class="mica-cell a-cell"
+            data-index={i}
+            data-series={w.series}
+            data-title={w.title}
+            data-technique={w.technique}
+            data-dimensions={w.dimensions}
+            data-year={w.year}
+            data-aspect={w.aspect}
+            data-series-label={SERIES.find(s => s.id === w.series)?.label}
+            aria-label={`${w.title}, ${w.year}`}
+          >
+            <div class="mica-cell__sheet" data-aspect={w.aspect}>
+              <PhotoPlaceholder work={w} />
+              <div class="mica-cell__tint"></div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <section class="a-bio" data-view-section="bio">
+      <h2 class="a-bio__label">{COPY.bioTitle}</h2>
+      {COPY.statement.map(p => <p class="a-bio__p">{p}</p>)}
+      <hr class="a-rule" />
+      <h2 class="a-bio__label">{COPY.cvTitle}</h2>
+      {cvEntries.map(([key, entries]) => (
+        <div class="a-cv__group">
+          <h3 class="a-cv__heading">{groupsMap[key]}</h3>
+          <ul>
+            {entries.map((row) => (
+              <li class="a-cv__row">
+                <span class="a-cv__year">{row[0]}</span>
+                <span class="a-cv__title">{row[1]}</span>
+                <span class="a-cv__sep">·</span>
+                <span class="a-cv__inst">{row[2]}</span>
+                <span class="a-cv__sep">·</span>
+                <span class="a-cv__city">{row[3]}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section class="a-contact" data-view-section="contact">
+      <p class="a-contact__mail">
+        <a href={`mailto:${COPY.contact.mail}`}>{COPY.contact.mail}</a>
+      </p>
+      <p class="a-contact__city">{COPY.contact.city}</p>
+      <p class="a-contact__row"><a href="#">{COPY.contact.dossier}</a></p>
+      <p class="a-contact__row">
+        <a href="#">Instagram</a>
+        <span style="color:var(--ink-3);padding:0 0.5em">·</span>
+        <a href="#">Are.na</a>
+      </p>
+    </section>
   </main>
+
+  <footer class="a-footer">{COPY.footer}</footer>
+
+  <div class="mica-modal" id="modal" role="dialog" aria-modal="true" hidden>
+    <div class="mica-modal__topbar">
+      <span class="mica-modal__serie" id="modal-serie"></span>
+      <button class="mica-modal__close" data-action="close-modal" aria-label="Cerrar">
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <path d="M1 1 L13 13 M13 1 L1 13" stroke="currentColor" stroke-width="1" fill="none" />
+        </svg>
+      </button>
+    </div>
+    <button class="mica-modal__arrow mica-modal__arrow--left" data-action="prev-modal" aria-label="Anterior">
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+        <path d="M14 4 L7 11 L14 18" stroke="currentColor" stroke-width="1" fill="none" />
+      </svg>
+    </button>
+    <button class="mica-modal__arrow mica-modal__arrow--right" data-action="next-modal" aria-label="Siguiente">
+      <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+        <path d="M8 4 L15 11 L8 18" stroke="currentColor" stroke-width="1" fill="none" />
+      </svg>
+    </button>
+    <div class="mica-modal__stage" id="modal-stage">
+      <div class="mica-modal__sheet" id="modal-sheet" data-aspect="vertical">
+        <div id="modal-sheet-content"></div>
+      </div>
+      <div class="mica-modal__caption" id="modal-caption" data-aspect="vertical">
+        <h2 class="mica-cap__title" id="modal-title"></h2>
+        <p class="mica-cap__tech" id="modal-tech"></p>
+        <p class="mica-cap__meta" id="modal-meta"></p>
+      </div>
+      <div class="mica-modal__counter" id="modal-counter"></div>
+    </div>
+  </div>
 </Base>
 
-<style>
-  main {
-    flex: 1;
-    display: grid;
-    place-items: center;
-    padding: var(--gutter);
+<script>
+  // Estado
+  let currentView: 'works' | 'bio' | 'contact' = 'works';
+  let currentSeries: string = 'all';
+  let currentIndex: number | null = null;
+
+  const grid = document.getElementById('grid')!;
+  const allCells = Array.from(grid.querySelectorAll<HTMLButtonElement>('.a-cell'));
+  const modal = document.getElementById('modal')!;
+  const modalSerie = document.getElementById('modal-serie')!;
+  const modalSheet = document.getElementById('modal-sheet')!;
+  const modalSheetContent = document.getElementById('modal-sheet-content')!;
+  const modalCaption = document.getElementById('modal-caption')!;
+  const modalTitle = document.getElementById('modal-title')!;
+  const modalTech = document.getElementById('modal-tech')!;
+  const modalMeta = document.getElementById('modal-meta')!;
+  const modalCounter = document.getElementById('modal-counter')!;
+
+  function visibleCells(): HTMLButtonElement[] {
+    return allCells.filter(c => c.dataset.hidden !== 'true');
   }
 
-  .frame {
-    width: 100%;
-    max-width: var(--measure);
-    display: grid;
-    gap: clamp(3rem, 8vh, 6rem);
+  function setView(view: 'works' | 'bio' | 'contact') {
+    currentView = view;
+    document.querySelectorAll<HTMLElement>('[data-view-section]').forEach(el => {
+      el.classList.toggle('is-active', el.dataset.viewSection === view);
+      el.classList.toggle('a-fade', el.dataset.viewSection === view);
+    });
+    document.querySelectorAll<HTMLButtonElement>('.a-header [data-view]').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.view === view);
+    });
+    closeModal();
   }
 
-  .mark {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    font-family: var(--sans);
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
+  function setSeries(seriesId: string) {
+    currentSeries = seriesId;
+    document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.series === seriesId);
+    });
+    allCells.forEach(cell => {
+      const match = seriesId === 'all' || cell.dataset.series === seriesId;
+      cell.dataset.hidden = match ? 'false' : 'true';
+    });
   }
 
-  .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2.6s ease-in-out infinite;
+  function reset() {
+    setSeries('all');
+    setView('works');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50%      { opacity: 1;   transform: scale(1.15); }
+  function openModal(index: number) {
+    const cells = visibleCells();
+    if (index < 0 || index >= cells.length) return;
+    currentIndex = index;
+    const cell = cells[index];
+    const aspect = cell.dataset.aspect!;
+    modalSheet.setAttribute('data-aspect', aspect);
+    modalCaption.setAttribute('data-aspect', aspect);
+    modalSerie.textContent = cell.dataset.seriesLabel!;
+    modalTitle.textContent = cell.dataset.title!.toUpperCase();
+    modalTech.textContent = cell.dataset.technique!;
+    modalMeta.textContent = `${cell.dataset.dimensions} — ${cell.dataset.year}`;
+    modalCounter.textContent =
+      `${String(index + 1).padStart(2, '0')} / ${String(cells.length).padStart(2, '0')}`;
+    const svg = cell.querySelector('svg')!.cloneNode(true) as SVGElement;
+    modalSheetContent.innerHTML = '';
+    modalSheetContent.appendChild(svg);
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
   }
 
-  .title-block {
-    display: grid;
-    gap: 1.25rem;
+  function closeModal() {
+    modal.hidden = true;
+    currentIndex = null;
+    document.body.style.overflow = '';
   }
 
-  h1 {
-    margin: 0;
-    font-weight: 400;
-    font-size: clamp(3.25rem, 11vw, 7rem);
-    line-height: 0.95;
-    letter-spacing: -0.025em;
-    display: grid;
+  function prevModal() {
+    if (currentIndex === null) return;
+    const cells = visibleCells();
+    openModal((currentIndex - 1 + cells.length) % cells.length);
   }
 
-  .name-first {
-    font-style: italic;
-    color: var(--ink);
+  function nextModal() {
+    if (currentIndex === null) return;
+    const cells = visibleCells();
+    openModal((currentIndex + 1) % cells.length);
   }
 
-  .name-last {
-    color: var(--ink);
-    text-indent: 0.5em;
-  }
+  // Listeners
+  document.querySelector('[data-action="reset"]')!.addEventListener('click', reset);
 
-  .lede {
-    margin: 0;
-    max-width: 28rem;
-    color: var(--ink-soft);
-    font-size: clamp(1rem, 1vw + 0.85rem, 1.1875rem);
-    line-height: 1.5;
-    border-top: 1px solid var(--rule);
-    padding-top: 1.5rem;
-  }
+  document.querySelectorAll<HTMLButtonElement>('.a-header [data-view]').forEach(btn => {
+    btn.addEventListener('click', () => setView(btn.dataset.view as any));
+  });
 
-  .foot {
-    font-family: var(--sans);
-    font-size: 0.8125rem;
-    color: var(--ink-soft);
-    letter-spacing: 0.02em;
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-  }
+  document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
+    btn.addEventListener('click', () => setSeries(btn.dataset.series!));
+  });
 
-  .sep {
-    opacity: 0.5;
-  }
+  allCells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      const vis = visibleCells();
+      const idx = vis.indexOf(cell);
+      if (idx >= 0) openModal(idx);
+    });
+  });
 
-  @media (prefers-reduced-motion: reduce) {
-    .dot { animation: none; }
-  }
-</style>
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+  document.querySelector('[data-action="close-modal"]')!
+    .addEventListener('click', e => { e.stopPropagation(); closeModal(); });
+  document.querySelector('[data-action="prev-modal"]')!
+    .addEventListener('click', e => { e.stopPropagation(); prevModal(); });
+  document.querySelector('[data-action="next-modal"]')!
+    .addEventListener('click', e => { e.stopPropagation(); nextModal(); });
+
+  document.addEventListener('keydown', e => {
+    if (modal.hidden) return;
+    if (e.key === 'Escape')     closeModal();
+    if (e.key === 'ArrowLeft')  prevModal();
+    if (e.key === 'ArrowRight') nextModal();
+  });
+</script>

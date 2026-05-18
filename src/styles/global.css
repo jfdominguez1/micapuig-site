@@ -1,71 +1,370 @@
-@font-face {
-  font-family: 'system-serif';
-  src: local('Iowan Old Style'), local('Apple Garamond'), local('Baskerville'),
-       local('Times New Roman'), local('Droid Serif'), local('Times'),
-       local('Source Serif Pro'), local('serif');
-}
+/* Micaela Puig — Alt A "Línea"
+   Portado a Astro estático desde el bundle de Claude Design (shared-base + alt-a).
+   Sin tweaks panel — versión productiva limpia con acento fijo alizarina. */
 
 :root {
-  --bg: #f4f1ec;
-  --ink: #1a1a1a;
-  --ink-soft: #5a5a5a;
-  --accent: #b34a2a;
-  --rule: rgba(26, 26, 26, 0.12);
-
-  --serif: 'system-serif', 'Iowan Old Style', 'Apple Garamond', Baskerville,
-           'Times New Roman', Times, serif;
-  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto,
-          'Helvetica Neue', Arial, sans-serif;
-
-  --measure: 38rem;
-  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --bg:      #faf9f6;
+  --ink:     #111111;
+  --ink-2:   #4a4a4a;
+  --ink-3:   #8a8a8a;
+  --ink-4:   #bcbcbc;
+  --line:    rgba(17, 17, 17, 0.12);
+  --line-2:  rgba(17, 17, 17, 0.06);
+  --sans:    'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --serif:   'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --accent-rgba:   rgba(141, 23, 44, 0.48);
+  --accent-swatch: #8d172c;
+  --grid-gap: 22px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #141312;
-    --ink: #ece8e1;
-    --ink-soft: #9a948a;
-    --accent: #d97a55;
-    --rule: rgba(236, 232, 225, 0.14);
-  }
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-body {
+* { box-sizing: border-box; }
+html, body {
   margin: 0;
+  padding: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--serif);
-  font-size: clamp(1rem, 1.05vw + 0.85rem, 1.1875rem);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body { min-height: 100vh; }
+button { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+hr { border: 0; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+/* ─── Celdas (grilla) ────────────────────────────────────────── */
+.mica-cell {
+  display: block; width: 100%;
+  padding: 0; cursor: pointer;
+  break-inside: avoid;
+}
+.mica-cell__sheet {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.mica-cell__sheet[data-aspect="vertical"]   { aspect-ratio: 4 / 5; }
+.mica-cell__sheet[data-aspect="horizontal"] { aspect-ratio: 5 / 4; }
+.mica-cell__sheet[data-aspect="square"]     { aspect-ratio: 1 / 1; }
+
+/* Tinte multiply (hover) — la obra no se mueve */
+.mica-cell__tint {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 380ms cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+  background: var(--accent-rgba);
+}
+.mica-cell:hover .mica-cell__tint,
+.mica-cell:focus-visible .mica-cell__tint { opacity: 1; }
+.mica-cell:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+
+/* ─── Modal ──────────────────────────────────────────────────── */
+.mica-modal {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(10, 10, 10, 0.98);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex; flex-direction: column;
+  color: rgba(245, 243, 238, 0.9);
+  animation: micaFade 220ms ease;
+}
+.mica-modal[hidden] { display: none; }
+@keyframes micaFade { from { opacity: 0; } to { opacity: 1; } }
+
+.mica-modal__topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 40px;
+  border-bottom: 1px solid rgba(245, 243, 238, 0.08);
+  font-size: 11.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(245, 243, 238, 0.75);
+}
+.mica-modal__close {
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: rgba(245, 243, 238, 0.6);
+}
+.mica-modal__close:hover { color: #fff; }
+
+.mica-modal__arrow {
+  position: absolute; top: 50%;
+  transform: translateY(-50%);
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(245, 243, 238, 0.5);
+  z-index: 10;
+}
+.mica-modal__arrow:hover { color: #fff; }
+.mica-modal__arrow--left  { left: 24px; }
+.mica-modal__arrow--right { right: 24px; }
+
+.mica-modal__stage {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 4vh 80px 5vh;
+  gap: 2.4rem;
+  position: relative;
+}
+.mica-modal__sheet {
+  position: relative; overflow: hidden; background: #1a1a1a;
+}
+.mica-modal__sheet[data-aspect="vertical"]   { height: 64vh; aspect-ratio: 4 / 5; max-width: 88vw; }
+.mica-modal__sheet[data-aspect="horizontal"] { width: min(64vw, 1000px); aspect-ratio: 5 / 4; max-height: 64vh; }
+.mica-modal__sheet[data-aspect="square"]     { height: 64vh; aspect-ratio: 1 / 1; max-width: 88vw; }
+
+.mica-modal__caption { width: auto; text-align: left; align-self: center; }
+.mica-modal__caption[data-aspect="vertical"]   { width: min(calc(64vh * 4 / 5), 88vw); }
+.mica-modal__caption[data-aspect="horizontal"] { width: min(64vw, 1000px); }
+.mica-modal__caption[data-aspect="square"]     { width: min(64vh, 88vw); }
+
+.mica-cap__title {
+  font-family: var(--sans);
+  font-weight: 500; font-size: 14px;
+  letter-spacing: 0.16em;
+  margin: 0 0 0.5rem;
+  color: rgba(245, 243, 238, 1);
+}
+.mica-cap__tech {
+  font-family: var(--sans);
+  font-style: italic; font-weight: 300; font-size: 13.5px;
+  letter-spacing: 0.01em;
+  color: rgba(245, 243, 238, 0.65);
+  margin: 0 0 0.35rem;
   line-height: 1.55;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+}
+.mica-cap__meta {
+  font-family: var(--sans);
+  font-weight: 300; font-size: 12.5px;
+  letter-spacing: 0.05em;
+  color: rgba(245, 243, 238, 0.55);
+  margin: 0;
+}
+.mica-modal__counter {
+  position: absolute; bottom: 24px; right: 40px;
+  font-size: 11px; letter-spacing: 0.22em;
+  color: rgba(245, 243, 238, 0.4);
+  font-variant-numeric: tabular-nums;
 }
 
-a {
+/* ─── Header Alt A "Línea" ─── */
+.a-header {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--bg);
+  padding: 18px 36px;
+  display: flex; align-items: baseline; gap: 0;
+  flex-wrap: wrap;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--line-2);
+}
+.a-brand {
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.a-sep { color: var(--ink-3); padding: 0 0.55em; }
+.a-link {
+  font-weight: 300;
   color: var(--ink);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color 0.15s ease;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: opacity 140ms ease;
+  white-space: nowrap;
+}
+.a-link:hover { opacity: 0.55; }
+.a-link.is-active { font-weight: 400; border-bottom-color: var(--ink); }
+
+.a-langs {
+  margin-left: auto;
+  display: inline-flex; align-items: baseline;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.a-lang {
+  font-weight: 300;
+  opacity: 0.4;
+  padding: 0 3px;
+  color: var(--ink);
+}
+.a-lang.is-active { opacity: 1; font-weight: 400; }
+.a-lang:not(.is-disabled):hover { opacity: 0.85; }
+.a-lang.is-disabled { cursor: default; opacity: 0.3; }
+.a-lang-sep { color: var(--ink-4); padding: 0 1px; }
+
+/* ─── Vista Obra ─── */
+.a-works {
+  padding: 40px 36px 96px;
+  max-width: 1640px;
+  margin: 0 auto;
+}
+.a-works__sub {
+  display: flex; gap: 0; align-items: baseline;
+  font-size: 12px;
+  margin-bottom: 32px;
+  letter-spacing: 0.02em;
+  flex-wrap: wrap;
+  color: var(--ink-2);
+}
+.a-works__sub button {
+  font-size: 12px;
+  color: var(--ink-2);
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+}
+.a-works__sub button:hover { color: var(--ink); }
+.a-works__sub button.is-active {
+  color: var(--ink);
+  font-weight: 400;
+  border-bottom-color: var(--ink);
+}
+.a-works__sub-sep { color: var(--ink-4); padding: 0 0.55em; }
+.a-works__sub-n {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  padding-left: 2px;
 }
 
-a:hover {
-  color: var(--accent);
+.a-grid {
+  column-count: 2;
+  column-gap: var(--grid-gap);
+}
+@media (min-width: 720px)  { .a-grid { column-count: 3; } }
+@media (min-width: 1080px) { .a-grid { column-count: 4; } }
+@media (min-width: 1440px) { .a-grid { column-count: 5; } }
+
+.a-cell { margin: 0 0 var(--grid-gap); }
+.a-cell[data-hidden="true"] { display: none; }
+
+/* ─── Vista Bio ─── */
+.a-bio {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 6rem 36px 8rem;
+}
+.a-bio__label {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 2.5rem;
+}
+.a-bio__p {
+  font-family: var(--serif);
+  font-weight: 400; font-size: 19px;
+  line-height: 1.78;
+  margin: 0 0 1.6rem;
+  letter-spacing: 0.005em;
+  text-wrap: pretty;
+}
+.a-rule {
+  width: 50%; height: 1px;
+  background: var(--line);
+  margin: 5rem 0 4.5rem;
+}
+.a-cv__group { margin: 0 0 2.6rem; }
+.a-cv__heading {
+  font-size: 13px; font-weight: 400; margin: 0 0 1rem;
+  letter-spacing: 0.04em;
+}
+.a-cv__row {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 0 0.4rem;
+  font-size: 13.5px; font-weight: 300;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+.a-cv__year { min-width: 3rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.a-cv__title { font-weight: 400; }
+.a-cv__inst, .a-cv__city { color: var(--ink-2); }
+.a-cv__sep { color: var(--ink-3); padding: 0 0.2rem; }
+
+/* ─── Vista Contacto ─── */
+.a-contact {
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: 8rem 36px;
+  text-align: center;
+}
+.a-contact > * { margin: 0; }
+.a-contact__mail {
+  font-size: 17px; font-weight: 300;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.6rem;
+}
+.a-contact__mail a { border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+.a-contact__mail a:hover { border-bottom-color: var(--ink); }
+.a-contact__city {
+  font-size: 13.5px; font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  margin-bottom: 3rem;
+}
+.a-contact__row {
+  font-size: 13.5px; font-weight: 300;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.6rem;
+}
+.a-contact__row a {
+  border-bottom: 1px solid var(--line); padding-bottom: 1px;
+}
+.a-contact__row a:hover { border-bottom-color: var(--ink); }
+
+/* Footer */
+.a-footer {
+  text-align: center;
+  padding: 3rem 36px;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  color: var(--ink-3);
+  border-top: 1px solid var(--line-2);
+  margin-top: 4rem;
 }
 
-::selection {
-  background: var(--accent);
-  color: var(--bg);
+/* Fade entre vistas */
+.a-fade { animation: aFade 320ms cubic-bezier(.4,0,.2,1); }
+@keyframes aFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* View switching */
+[data-view-section] { display: none; }
+[data-view-section].is-active { display: block; }
+
+/* Responsive */
+@media (max-width: 720px) {
+  .a-header { padding: 14px 18px; font-size: 12px; gap: 0; }
+  .a-brand { font-size: 12px; }
+  .a-sep { padding: 0 0.4em; }
+  .a-langs { margin-left: auto; font-size: 12px; }
+  .a-works { padding: 28px 18px 64px; }
+  .a-bio { padding: 4rem 22px 5rem; }
+  .a-bio__p { font-size: 17px; }
+  .a-contact { padding: 5rem 22px; }
+  .a-grid { column-gap: var(--grid-gap); }
+  .a-cell { margin-bottom: var(--grid-gap); }
+
+  .mica-modal__stage { padding: 3vh 12px 4vh; }
+  .mica-modal__arrow { width: 44px; height: 44px; }
+  .mica-modal__arrow--left { left: 0; }
+  .mica-modal__arrow--right { right: 0; }
+  .mica-modal__sheet[data-aspect="vertical"]   { height: 52vh; }
+  .mica-modal__sheet[data-aspect="horizontal"] { width: 92vw; }
+  .mica-modal__sheet[data-aspect="square"]     { height: 52vh; }
+  .mica-modal__topbar { padding: 16px 18px; }
+}
+@media (max-width: 420px) {
+  .a-header { font-size: 11px; }
+  .a-sep { padding: 0 0.3em; }
+  .a-langs { font-size: 11px; }
 }
