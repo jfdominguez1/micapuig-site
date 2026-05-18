@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'system-serif';
+  src: local('Iowan Old Style'), local('Apple Garamond'), local('Baskerville'),
+       local('Times New Roman'), local('Droid Serif'), local('Times'),
+       local('Source Serif Pro'), local('serif');
+}
+
+:root {
+  --bg: #f4f1ec;
+  --ink: #1a1a1a;
+  --ink-soft: #5a5a5a;
+  --accent: #b34a2a;
+  --rule: rgba(26, 26, 26, 0.12);
+
+  --serif: 'system-serif', 'Iowan Old Style', 'Apple Garamond', Baskerville,
+           'Times New Roman', Times, serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto,
+          'Helvetica Neue', Arial, sans-serif;
+
+  --measure: 38rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141312;
+    --ink: #ece8e1;
+    --ink-soft: #9a948a;
+    --accent: #d97a55;
+    --rule: rgba(236, 232, 225, 0.14);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.05vw + 0.85rem, 1.1875rem);
+  line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}

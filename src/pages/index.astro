@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Micaela Puig">
+  <main>
+    <div class="frame">
+      <header class="mark">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="label">En construcción</span>
+      </header>
+
+      <section class="title-block">
+        <h1>
+          <span class="name-first">Micaela</span>
+          <span class="name-last">Puig</span>
+        </h1>
+        <p class="lede">
+          Artista. Un sitio en preparación —
+          obra, escritos y exposiciones llegando pronto.
+        </p>
+      </section>
+
+      <footer class="foot">
+        <span>©&nbsp;2026</span>
+        <span class="sep" aria-hidden="true">·</span>
+        <span>Buenos Aires</span>
+      </footer>
+    </div>
+  </main>
+</Base>
+
+<style>
+  main {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: var(--gutter);
+  }
+
+  .frame {
+    width: 100%;
+    max-width: var(--measure);
+    display: grid;
+    gap: clamp(3rem, 8vh, 6rem);
+  }
+
+  .mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.15); }
+  }
+
+  .title-block {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(3.25rem, 11vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    display: grid;
+  }
+
+  .name-first {
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .name-last {
+    color: var(--ink);
+    text-indent: 0.5em;
+  }
+
+  .lede {
+    margin: 0;
+    max-width: 28rem;
+    color: var(--ink-soft);
+    font-size: clamp(1rem, 1vw + 0.85rem, 1.1875rem);
+    line-height: 1.5;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+  }
+
+  .foot {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .sep {
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dot { animation: none; }
+  }
+</style>
