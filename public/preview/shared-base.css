@@ -1,0 +1,175 @@
+/* Base compartida entre las 4 alternativas: tokens, reset, modal, hover multiply.
+   El chrome de header / tabs / layout lo aporta el CSS de cada variante. */
+
+:root {
+  --bg:      #faf9f6;
+  --ink:     #111111;
+  --ink-2:   #4a4a4a;
+  --ink-3:   #8a8a8a;
+  --ink-4:   #bcbcbc;
+  --line:    rgba(17, 17, 17, 0.12);
+  --line-2:  rgba(17, 17, 17, 0.06);
+  --sans:    'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --serif:   'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --accent-rgba:   rgba(141, 23, 44, 0.48);
+  --accent-swatch: #8d172c;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body { min-height: 100vh; }
+button { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+hr { border: 0; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+/* ─── Celdas (grilla) ────────────────────────────────────────── */
+.mica-cell {
+  display: block; width: 100%;
+  padding: 0; cursor: pointer;
+  break-inside: avoid;
+}
+.mica-cell__sheet {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.mica-cell__sheet[data-aspect="vertical"]   { aspect-ratio: 4 / 5; }
+.mica-cell__sheet[data-aspect="horizontal"] { aspect-ratio: 5 / 4; }
+.mica-cell__sheet[data-aspect="square"]     { aspect-ratio: 1 / 1; }
+
+/* Tinte multiply (hover) — la obra no se mueve */
+.mica-cell__tint {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 380ms cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+}
+.mica-cell:hover .mica-cell__tint,
+.mica-cell:focus-visible .mica-cell__tint,
+.mica-cell__tint.is-on { opacity: 1; }
+.mica-cell:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+
+/* ─── Modal ──────────────────────────────────────────────────── */
+.mica-modal {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(10, 10, 10, 0.98);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex; flex-direction: column;
+  color: rgba(245, 243, 238, 0.9);
+  animation: micaFade 220ms ease;
+}
+@keyframes micaFade { from { opacity: 0; } to { opacity: 1; } }
+
+.mica-modal__topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 40px;
+  border-bottom: 1px solid rgba(245, 243, 238, 0.08);
+  font-size: 11.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(245, 243, 238, 0.75);
+}
+.mica-modal__topright { display: flex; align-items: center; gap: 28px; }
+.mica-modal__filter {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: rgba(245, 243, 238, 0.75);
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(245, 243, 238, 0.18);
+  white-space: nowrap;
+}
+.mica-modal__filter:hover { color: rgba(245, 243, 238, 1); }
+.mica-modal__close {
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: rgba(245, 243, 238, 0.6);
+}
+.mica-modal__close:hover { color: #fff; }
+
+.mica-modal__arrow {
+  position: absolute; top: 50%;
+  transform: translateY(-50%);
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(245, 243, 238, 0.5);
+  z-index: 10;
+}
+.mica-modal__arrow:hover { color: #fff; }
+.mica-modal__arrow--left  { left: 24px; }
+.mica-modal__arrow--right { right: 24px; }
+
+.mica-modal__stage {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 4vh 80px 5vh;
+  gap: 2.4rem;
+  position: relative;
+}
+.mica-modal__sheet {
+  position: relative; overflow: hidden; background: #1a1a1a;
+}
+.mica-modal__sheet[data-aspect="vertical"]   { height: 64vh; aspect-ratio: 4 / 5; max-width: 88vw; }
+.mica-modal__sheet[data-aspect="horizontal"] { width: min(64vw, 1000px); aspect-ratio: 5 / 4; max-height: 64vh; }
+.mica-modal__sheet[data-aspect="square"]     { height: 64vh; aspect-ratio: 1 / 1; max-width: 88vw; }
+
+.mica-modal__caption { width: auto; text-align: left; align-self: center; }
+.mica-modal__caption[data-aspect="vertical"]   { width: min(calc(64vh * 4 / 5), 88vw); }
+.mica-modal__caption[data-aspect="horizontal"] { width: min(64vw, 1000px); }
+.mica-modal__caption[data-aspect="square"]     { width: min(64vh, 88vw); }
+
+.mica-cap__title {
+  font-family: var(--sans);
+  font-weight: 500; font-size: 14px;
+  letter-spacing: 0.16em;
+  margin: 0 0 0.5rem;
+  color: rgba(245, 243, 238, 1);
+}
+.mica-cap__tech {
+  font-family: var(--sans);
+  font-style: italic; font-weight: 300; font-size: 13.5px;
+  letter-spacing: 0.01em;
+  color: rgba(245, 243, 238, 0.65);
+  margin: 0 0 0.35rem;
+  line-height: 1.55;
+}
+.mica-cap__meta {
+  font-family: var(--sans);
+  font-weight: 300; font-size: 12.5px;
+  letter-spacing: 0.05em;
+  color: rgba(245, 243, 238, 0.55);
+  margin: 0;
+}
+.mica-modal__counter {
+  position: absolute; bottom: 24px; right: 40px;
+  font-size: 11px; letter-spacing: 0.22em;
+  color: rgba(245, 243, 238, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .mica-modal__stage { padding: 3vh 12px 4vh; }
+  .mica-modal__arrow { width: 44px; height: 44px; }
+  .mica-modal__arrow--left { left: 0; }
+  .mica-modal__arrow--right { right: 0; }
+  .mica-modal__sheet[data-aspect="vertical"]   { height: 52vh; }
+  .mica-modal__sheet[data-aspect="horizontal"] { width: 92vw; }
+  .mica-modal__sheet[data-aspect="square"]     { height: 52vh; }
+  .mica-modal__topbar { padding: 16px 18px; }
+}

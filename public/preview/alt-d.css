@@ -1,0 +1,344 @@
+/* Alt D — Índice editorial / libro de artista
+   Cabecera de portada con tipografía grande. Captions visibles bajo cada pieza.
+   Bio y Contacto como páginas de libro con marginalia. */
+
+@import url('shared-base.css');
+
+.d-app { padding: 0 0 0; }
+
+/* ─── Cabecera tipo portada de libro ─── */
+.d-cover {
+  border-bottom: 1px solid var(--ink);
+  background: var(--bg);
+  position: sticky; top: 0; z-index: 60;
+}
+.d-cover__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 22px 56px 18px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px 40px;
+  align-items: end;
+}
+.d-cover__title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 28px;
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  margin: 0;
+  color: var(--ink);
+  cursor: pointer;
+}
+.d-cover__title .small {
+  display: block;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+.d-cover__meta {
+  display: flex; gap: 0;
+  align-items: end;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.d-cover__meta-item {
+  border-left: 1px solid var(--line);
+  padding: 0 18px;
+  display: flex; flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+.d-cover__meta-item:first-child { border-left: 0; padding-left: 0; }
+.d-cover__meta-key { font-size: 9px; letter-spacing: 0.24em; color: var(--ink-4); }
+.d-cover__meta-val { color: var(--ink); font-size: 11px; letter-spacing: 0.16em; white-space: nowrap; }
+.d-cover__meta-val button { color: inherit; padding: 0 2px; opacity: 0.4; }
+.d-cover__meta-val button.is-active { opacity: 1; }
+.d-cover__meta-val button:hover { opacity: 0.85; }
+
+/* Tira de tabs como índice del libro */
+.d-tabs {
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.d-tabs__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 14px 56px;
+  display: flex; align-items: baseline;
+  gap: 36px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.d-tab {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--ink-2);
+  display: inline-flex; align-items: baseline; gap: 10px;
+  letter-spacing: 0.04em;
+}
+.d-tab__roman {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.d-tab:hover { color: var(--ink); }
+.d-tab.is-active { color: var(--ink); font-weight: 400; }
+.d-tab.is-active .d-tab__roman { color: var(--ink); }
+.d-tabs__right {
+  margin-left: auto;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+/* Filtros series — barra de capítulo (sólo en Obra) */
+.d-chapter {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 56px 24px;
+  display: flex; align-items: baseline;
+  gap: 26px;
+}
+.d-chapter__num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.d-chapter__list { display: flex; gap: 0; align-items: baseline; flex-wrap: wrap; }
+.d-chapter__list button {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  padding: 0 0.55em;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+}
+.d-chapter__list .d-sep { color: var(--ink-4); padding: 0 0.2em; }
+.d-chapter__list button:hover { color: var(--ink); }
+.d-chapter__list button.is-active { color: var(--ink); font-weight: 400; border-bottom-color: var(--ink); }
+.d-chapter__count {
+  margin-left: auto;
+  font-family: var(--serif); font-style: italic;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ─── Grilla editorial: 3 columnas con captions visibles ─── */
+.d-works {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 56px 96px;
+}
+.d-grid {
+  column-count: 2;
+  column-gap: 36px;
+}
+@media (min-width: 760px)  { .d-grid { column-count: 3; column-gap: 40px; } }
+@media (min-width: 1180px) { .d-grid { column-count: 4; column-gap: 44px; } }
+
+.d-cell {
+  margin: 0 0 44px;
+  text-align: left;
+}
+.d-cell__sheet {
+  background: #eee9dd;
+}
+.d-cell__caption {
+  margin-top: 12px;
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.d-cell__num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.d-cell__title {
+  font-weight: 400;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.d-cell__sub {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 11.5px;
+  letter-spacing: 0.005em;
+  text-transform: none;
+  color: var(--ink-3);
+  font-weight: 400;
+  margin-top: 3px;
+}
+
+/* ─── Bio: página de libro con marginalia ─── */
+.d-bio {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 56px 8rem;
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 0 4rem;
+}
+.d-bio__margin {
+  text-align: right;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+  position: sticky;
+  top: 200px;
+  align-self: start;
+}
+.d-bio__margin-row {
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+.d-bio__main { max-width: 36rem; }
+.d-bio__head {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 2rem;
+}
+.d-bio__p {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.78;
+  margin: 0 0 1.6rem;
+  text-wrap: pretty;
+}
+.d-bio__p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-size: 48px;
+  line-height: 0.95;
+  float: left;
+  padding: 6px 8px 0 0;
+  font-weight: 400;
+}
+.d-rule { width: 33%; height: 1px; background: var(--line); margin: 4rem 0 3rem; }
+
+.d-cv__group { margin: 0 0 2.4rem; }
+.d-cv__heading {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13.5px; font-weight: 400;
+  color: var(--ink);
+  margin: 0 0 1rem;
+}
+.d-cv__row {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0 1rem;
+  font-size: 13.5px; font-weight: 300;
+  line-height: 1.7;
+  padding: 0.3rem 0;
+  align-items: baseline;
+}
+.d-cv__year {
+  font-family: var(--serif); font-style: italic;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.d-cv__detail { display: flex; flex-wrap: wrap; gap: 0 0.4rem; align-items: baseline; }
+.d-cv__title { font-weight: 400; }
+.d-cv__inst, .d-cv__city { color: var(--ink-2); }
+.d-cv__sep { color: var(--ink-4); padding: 0 0.2rem; }
+
+/* ─── Contacto: colofón ─── */
+.d-contact {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 8rem 56px;
+  text-align: center;
+}
+.d-contact__head {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  margin: 0 0 3rem;
+  color: var(--ink);
+}
+.d-contact__mail {
+  font-size: 17px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  margin: 0 0 2rem;
+}
+.d-contact__mail a { border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+.d-contact__city {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px;
+  color: var(--ink-2);
+  margin: 0 0 3rem;
+}
+.d-contact__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem 3rem;
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: left;
+}
+.d-contact__list dt {
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+.d-contact__list dd { margin: 0; font-size: 13.5px; font-weight: 300; }
+.d-contact__list dd a { border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+
+/* Footer / colofón */
+.d-footer {
+  border-top: 1px solid var(--line);
+  text-align: center;
+  padding: 2.4rem 56px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 760px) {
+  .d-cover__inner { padding: 16px 22px 14px; grid-template-columns: 1fr; gap: 14px; }
+  .d-cover__title { font-size: 22px; }
+  .d-cover__meta-item { padding: 0 12px; }
+  .d-cover__meta-item:first-child { padding-left: 0; }
+  .d-tabs__inner { padding: 12px 22px; gap: 22px; }
+  .d-tabs__right { display: none; }
+  .d-chapter { padding: 28px 22px 16px; gap: 18px; flex-wrap: wrap; }
+  .d-chapter__count { width: 100%; margin-left: 0; }
+  .d-works { padding: 4px 22px 64px; }
+  .d-grid { column-count: 2; column-gap: 18px; }
+  .d-cell { margin-bottom: 28px; }
+  .d-bio { grid-template-columns: 1fr; padding: 4rem 22px 5rem; gap: 0; }
+  .d-bio__margin { display: none; }
+  .d-bio__p { font-size: 17px; }
+  .d-contact { padding: 5rem 22px; }
+  .d-contact__list { grid-template-columns: 1fr; gap: 1rem; }
+}
