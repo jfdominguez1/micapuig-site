@@ -74,7 +74,10 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
             aria-label={`${w.title}, ${w.year}`}
           >
             <div class="mica-cell__sheet" data-aspect={w.aspect}>
-              <PhotoPlaceholder work={w} />
+              {w.image
+                ? <img src={`/images/${w.image}`} alt={w.title} loading="lazy" />
+                : <PhotoPlaceholder work={w} />
+              }
               <div class="mica-cell__tint"></div>
             </div>
           </button>
@@ -156,10 +159,11 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
 </Base>
 
 <script>
-  // Estado
   let currentView: 'works' | 'bio' | 'contact' = 'works';
   let currentSeries: string = 'all';
   let currentIndex: number | null = null;
+  let _scrollY = 0;
+  let _prevFocus: HTMLElement | null = null;
 
   const grid = document.getElementById('grid')!;
   const allCells = Array.from(grid.querySelectorAll<HTMLButtonElement>('.a-cell'));
@@ -194,16 +198,36 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
       btn.classList.toggle('is-active', btn.dataset.series === seriesId);
     });
-    allCells.forEach(cell => {
-      const match = seriesId === 'all' || cell.dataset.series === seriesId;
-      cell.dataset.hidden = match ? 'false' : 'true';
-    });
+    grid.style.opacity = '0';
+    setTimeout(() => {
+      allCells.forEach(cell => {
+        const match = seriesId === 'all' || cell.dataset.series === seriesId;
+        cell.dataset.hidden = match ? 'false' : 'true';
+      });
+      grid.style.opacity = '';
+    }, 150);
   }
 
   function reset() {
     setSeries('all');
     setView('works');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function lockScroll() {
+    _scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${_scrollY}px`;
+    document.body.style.width = '100%';
+    document.body.style.overflowY = 'scroll';
+  }
+
+  function unlockScroll() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflowY = '';
+    window.scrollTo(0, _scrollY);
   }
 
   function openModal(index: number) {
@@ -217,20 +241,27 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     modalSerie.textContent = cell.dataset.seriesLabel!;
     modalTitle.textContent = cell.dataset.title!.toUpperCase();
     modalTech.textContent = cell.dataset.technique!;
-    modalMeta.textContent = `${cell.dataset.dimensions} — ${cell.dataset.year}`;
+    const dims = cell.dataset.dimensions || '';
+    const year = cell.dataset.year || '';
+    modalMeta.textContent = dims && year ? `${dims} — ${year}` : (dims || year || '');
     modalCounter.textContent =
       `${String(index + 1).padStart(2, '0')} / ${String(cells.length).padStart(2, '0')}`;
-    const svg = cell.querySelector('svg')!.cloneNode(true) as SVGElement;
+    const visual = cell.querySelector<HTMLElement>('svg, img');
     modalSheetContent.innerHTML = '';
-    modalSheetContent.appendChild(svg);
+    if (visual) modalSheetContent.appendChild(visual.cloneNode(true));
+    _prevFocus = document.activeElement as HTMLElement;
     modal.hidden = false;
-    document.body.style.overflow = 'hidden';
+    lockScroll();
+    modal.querySelector<HTMLButtonElement>('[data-action="close-modal"]')!.focus();
   }
 
   function closeModal() {
+    if (modal.hidden) return;
     modal.hidden = true;
     currentIndex = null;
-    document.body.style.overflow = '';
+    unlockScroll();
+    _prevFocus?.focus();
+    _prevFocus = null;
   }
 
   function prevModal() {
@@ -280,4 +311,33 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     if (e.key === 'ArrowLeft')  prevModal();
     if (e.key === 'ArrowRight') nextModal();
   });
+
+  // Focus trap
+  modal.addEventListener('keydown', e => {
+    if (e.key !== 'Tab') return;
+    const focusable = Array.from(modal.querySelectorAll<HTMLElement>('button:not([disabled])'));
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  // Swipe mobile
+  let touchStartX = 0;
+  let touchStartY = 0;
+  modal.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  modal.addEventListener('touchend', e => {
+    if (modal.hidden) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 48) {
+      dx < 0 ? nextModal() : prevModal();
+    }
+  }, { passive: true });
 </script>
