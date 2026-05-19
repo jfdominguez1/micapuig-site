@@ -25,18 +25,18 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
   <header class="a-header">
     <button class="a-brand a-link" data-action="reset">Micaela Puig</button>
     <span class="a-sep">·</span>
-    <button class="a-link is-active" data-view="works">{COPY.tabs.works}</button>
+    <button class="a-link is-active" data-view="works" data-i18n="tab.works">{COPY.tabs.works}</button>
     <span class="a-sep">·</span>
-    <button class="a-link" data-view="bio">{COPY.tabs.bio}</button>
+    <button class="a-link" data-view="bio" data-i18n="tab.bio">{COPY.tabs.bio}</button>
     <span class="a-sep">·</span>
-    <button class="a-link" data-view="contact">{COPY.tabs.contact}</button>
+    <button class="a-link" data-view="contact" data-i18n="tab.contact">{COPY.tabs.contact}</button>
 
     <div class="a-langs">
       <button class="a-lang is-active" data-lang="ES">ES</button>
       <span class="a-lang-sep">·</span>
-      <button class="a-lang is-disabled" aria-disabled="true" title="Pronto">EN</button>
+      <button class="a-lang" data-lang="EN">EN</button>
       <span class="a-lang-sep">·</span>
-      <button class="a-lang is-disabled" aria-disabled="true" title="Em breve">PT</button>
+      <button class="a-lang" data-lang="PT">PT</button>
     </div>
   </header>
 
@@ -44,15 +44,15 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     <section class="a-works is-active" data-view-section="works">
       <div class="a-works__sub">
         <button class="is-active" data-series="all">
-          {COPY.allLabel} <span class="a-works__sub-n">({WORKS.length})</span>
+          <span data-i18n="filter.all">{COPY.allLabel}</span><span class="a-works__sub-n"> ({WORKS.length})</span>
         </button>
-        {SERIES.map((s, i) => {
+        {SERIES.map((s) => {
           const count = WORKS.filter(w => w.series === s.id).length;
           return (
             <>
               <span class="a-works__sub-sep">·</span>
               <button data-series={s.id}>
-                {s.label} <span class="a-works__sub-n">({count})</span>
+                <span data-i18n={`series.${s.id}`}>{s.label}</span><span class="a-works__sub-n"> ({count})</span>
               </button>
             </>
           );
@@ -70,7 +70,6 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
             data-dimensions={w.dimensions}
             data-year={w.year}
             data-aspect={w.aspect}
-            data-series-label={SERIES.find(s => s.id === w.series)?.label}
             aria-label={`${w.title}, ${w.year}`}
           >
             <div class="mica-cell__sheet" data-aspect={w.aspect}>
@@ -86,13 +85,15 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     </section>
 
     <section class="a-bio" data-view-section="bio">
-      <h2 class="a-bio__label">{COPY.bioTitle}</h2>
-      {COPY.statement.map(p => <p class="a-bio__p">{p}</p>)}
+      <h2 class="a-bio__label" data-i18n="bio.statement">{COPY.bioTitle}</h2>
+      <div id="statement-body">
+        {COPY.statement.map(p => <p class="a-bio__p">{p}</p>)}
+      </div>
       <hr class="a-rule" />
-      <h2 class="a-bio__label">{COPY.cvTitle}</h2>
+      <h2 class="a-bio__label" data-i18n="bio.cv">{COPY.cvTitle}</h2>
       {cvEntries.map(([key, entries]) => (
         <div class="a-cv__group">
-          <h3 class="a-cv__heading">{groupsMap[key]}</h3>
+          <h3 class="a-cv__heading" data-i18n={`cv.${key}`}>{groupsMap[key]}</h3>
           <ul>
             {entries.map((row) => (
               <li class="a-cv__row">
@@ -113,8 +114,8 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       <p class="a-contact__mail">
         <a href={`mailto:${COPY.contact.mail}`}>{COPY.contact.mail}</a>
       </p>
-      <p class="a-contact__city">{COPY.contact.city}</p>
-      <p class="a-contact__row"><a href="#">{COPY.contact.dossier}</a></p>
+      <p class="a-contact__city" data-i18n="contact.city">{COPY.contact.city}</p>
+      <p class="a-contact__row"><a href="#" data-i18n="contact.dossier">{COPY.contact.dossier}</a></p>
       <p class="a-contact__row">
         <a href="#">Instagram</a>
         <span style="color:var(--ink-3);padding:0 0.5em">·</span>
@@ -123,23 +124,23 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     </section>
   </main>
 
-  <footer class="a-footer">{COPY.footer}</footer>
+  <footer class="a-footer" data-i18n="footer">{COPY.footer}</footer>
 
   <div class="mica-modal" id="modal" role="dialog" aria-modal="true" hidden>
     <div class="mica-modal__topbar">
       <span class="mica-modal__serie" id="modal-serie"></span>
-      <button class="mica-modal__close" data-action="close-modal" aria-label="Cerrar">
+      <button class="mica-modal__close" data-action="close-modal" aria-label="Cerrar" data-i18n-aria="modal.close">
         <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
           <path d="M1 1 L13 13 M13 1 L1 13" stroke="currentColor" stroke-width="1" fill="none" />
         </svg>
       </button>
     </div>
-    <button class="mica-modal__arrow mica-modal__arrow--left" data-action="prev-modal" aria-label="Anterior">
+    <button class="mica-modal__arrow mica-modal__arrow--left" data-action="prev-modal" aria-label="Anterior" data-i18n-aria="modal.prev">
       <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
         <path d="M14 4 L7 11 L14 18" stroke="currentColor" stroke-width="1" fill="none" />
       </svg>
     </button>
-    <button class="mica-modal__arrow mica-modal__arrow--right" data-action="next-modal" aria-label="Siguiente">
+    <button class="mica-modal__arrow mica-modal__arrow--right" data-action="next-modal" aria-label="Siguiente" data-i18n-aria="modal.next">
       <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
         <path d="M8 4 L15 11 L8 18" stroke="currentColor" stroke-width="1" fill="none" />
       </svg>
@@ -159,8 +160,103 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
 </Base>
 
 <script>
-  let currentView: 'works' | 'bio' | 'contact' = 'works';
-  let currentSeries: string = 'all';
+  // ─── i18n ───────────────────────────────────────────────────────
+  type Lang = 'ES' | 'EN' | 'PT';
+
+  const DICT: Record<string, Record<string, string | string[]>> = {
+    es: {
+      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.contact': 'Contacto',
+      'filter.all': 'Todas',
+      'series.infancia': 'Infancia', 'series.naturaleza': 'Naturaleza', 'series.aranka': 'Aranka',
+      'bio.statement': 'Statement', 'bio.cv': 'Currículum',
+      'cv.indiv': 'Exposiciones individuales', 'cv.colec': 'Exposiciones colectivas',
+      'cv.resid': 'Residencias', 'cv.premios': 'Premios',
+      'contact.city': 'Buenos Aires · Argentina',
+      'contact.dossier': 'Descargar dossier (PDF)',
+      'modal.close': 'Cerrar', 'modal.prev': 'Anterior', 'modal.next': 'Siguiente',
+      'footer': '© 2026 Micaela Puig · Buenos Aires',
+      statement: [
+        'Mi trabajo se sostiene en un registro analógico paciente. La cámara entra en una habitación, en un patio, en la sombra de un árbol, y permanece ahí el tiempo que haga falta. No estoy buscando una imagen: estoy esperando que un objeto, una superficie o un cuerpo deje su rastro propio sobre la película.',
+        'Las series Infancia, Naturaleza y Aranka funcionan como tres modos de la misma escucha. Infancia trabaja con casas, objetos y luces que ya estaban antes que yo. Naturaleza se ocupa de lo que crece, se seca y se mueve sin pedir permiso. Aranka es un cuerpo y una presencia que sostienen el ejercicio del retrato a lo largo del tiempo.',
+        'Reviso cada copia como un pliego suelto. La materialidad del papel, el virado, la mancha que aparece sin haber sido convocada, todo eso forma parte del trabajo. Una fotografía no termina cuando se dispara el obturador; termina, si termina, cuando alguien la sostiene en la mano.',
+      ],
+    },
+    en: {
+      'tab.works': 'Works', 'tab.bio': 'Bio', 'tab.contact': 'Contact',
+      'filter.all': 'All',
+      'series.infancia': 'Childhood', 'series.naturaleza': 'Nature', 'series.aranka': 'Aranka',
+      'bio.statement': 'Statement', 'bio.cv': 'CV',
+      'cv.indiv': 'Solo exhibitions', 'cv.colec': 'Group exhibitions',
+      'cv.resid': 'Residencies', 'cv.premios': 'Awards',
+      'contact.city': 'Buenos Aires · Argentina',
+      'contact.dossier': 'Download dossier (PDF)',
+      'modal.close': 'Close', 'modal.prev': 'Previous', 'modal.next': 'Next',
+      'footer': '© 2026 Micaela Puig · Buenos Aires',
+      statement: [
+        'My work is sustained by patient analog recording. The camera enters a room, a courtyard, the shadow of a tree, and stays as long as needed. I am not searching for an image: I am waiting for an object, a surface, or a body to leave its own trace on the film.',
+        'The series Childhood, Nature, and Aranka function as three modes of the same listening. Childhood works with houses, objects, and lights that were already there before me. Nature deals with what grows, dries, and moves without asking permission. Aranka is a body and a presence that sustain the exercise of portraiture over time.',
+        'I review each print as a loose sheet. The materiality of the paper, the toning, the stain that appears without having been summoned — all of this is part of the work. A photograph does not end when the shutter fires; it ends, if it ends, when someone holds it in their hands.',
+      ],
+    },
+    pt: {
+      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.contact': 'Contato',
+      'filter.all': 'Todas',
+      'series.infancia': 'Infância', 'series.naturaleza': 'Natureza', 'series.aranka': 'Aranka',
+      'bio.statement': 'Statement', 'bio.cv': 'Currículo',
+      'cv.indiv': 'Exposições individuais', 'cv.colec': 'Exposições coletivas',
+      'cv.resid': 'Residências', 'cv.premios': 'Prêmios',
+      'contact.city': 'Buenos Aires · Argentina',
+      'contact.dossier': 'Baixar dossiê (PDF)',
+      'modal.close': 'Fechar', 'modal.prev': 'Anterior', 'modal.next': 'Seguinte',
+      'footer': '© 2026 Micaela Puig · Buenos Aires',
+      statement: [
+        'Meu trabalho sustenta-se em um registro analógico paciente. A câmera entra em um quarto, em um pátio, na sombra de uma árvore, e permanece ali o tempo que for necessário. Não estou buscando uma imagem: estou esperando que um objeto, uma superfície ou um corpo deixe seu próprio rastro no filme.',
+        'As séries Infância, Natureza e Aranka funcionam como três modos da mesma escuta. Infância trabalha com casas, objetos e luzes que já estavam antes de mim. Natureza ocupa-se do que cresce, seca e se move sem pedir permissão. Aranka é um corpo e uma presença que sustentam o exercício do retrato ao longo do tempo.',
+        'Revejo cada cópia como uma folha solta. A materialidade do papel, o viragem, a mancha que aparece sem ter sido convocada, tudo isso faz parte do trabalho. Uma fotografia não termina quando o obturador dispara; termina, se termina, quando alguém a segura nas mãos.',
+      ],
+    },
+  };
+
+  function detectLang(): Lang {
+    const stored = localStorage.getItem('mica-lang') as Lang | null;
+    if (stored === 'ES' || stored === 'EN' || stored === 'PT') return stored;
+    const nav = (navigator.language || (navigator as any).userLanguage || '').toLowerCase();
+    if (nav.startsWith('pt')) return 'PT';
+    if (nav.startsWith('en')) return 'EN';
+    return 'ES';
+  }
+
+  function applyLang(lang: Lang) {
+    currentLang = lang;
+    const d = DICT[lang.toLowerCase()];
+
+    document.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n!;
+      const val = d[key];
+      if (typeof val === 'string') el.textContent = val;
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-i18n-aria]').forEach(el => {
+      const key = el.dataset.i18nAria!;
+      const val = d[key];
+      if (typeof val === 'string') el.setAttribute('aria-label', val);
+    });
+
+    const stmtEl = document.getElementById('statement-body');
+    const stmts = d['statement'] as string[] | undefined;
+    if (stmtEl && stmts) {
+      stmtEl.innerHTML = stmts.map(p => `<p class="a-bio__p">${p}</p>`).join('');
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('.a-lang').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.lang === lang);
+    });
+
+    localStorage.setItem('mica-lang', lang);
+  }
+
+  // ─── state ──────────────────────────────────────────────────────
+  let currentLang: Lang = 'ES';
   let currentIndex: number | null = null;
   let _scrollY = 0;
   let _prevFocus: HTMLElement | null = null;
@@ -182,7 +278,6 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
   }
 
   function setView(view: 'works' | 'bio' | 'contact') {
-    currentView = view;
     document.querySelectorAll<HTMLElement>('[data-view-section]').forEach(el => {
       el.classList.toggle('is-active', el.dataset.viewSection === view);
       el.classList.toggle('a-fade', el.dataset.viewSection === view);
@@ -194,7 +289,6 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
   }
 
   function setSeries(seriesId: string) {
-    currentSeries = seriesId;
     document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
       btn.classList.toggle('is-active', btn.dataset.series === seriesId);
     });
@@ -238,9 +332,10 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     const aspect = cell.dataset.aspect!;
     modalSheet.setAttribute('data-aspect', aspect);
     modalCaption.setAttribute('data-aspect', aspect);
-    modalSerie.textContent = cell.dataset.seriesLabel!;
+    const seriesKey = `series.${cell.dataset.series!}`;
+    modalSerie.textContent = (DICT[currentLang.toLowerCase()][seriesKey] as string) || '';
     modalTitle.textContent = cell.dataset.title!.toUpperCase();
-    modalTech.textContent = cell.dataset.technique!;
+    modalTech.textContent = cell.dataset.technique || '';
     const dims = cell.dataset.dimensions || '';
     const year = cell.dataset.year || '';
     modalMeta.textContent = dims && year ? `${dims} — ${year}` : (dims || year || '');
@@ -276,7 +371,7 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     openModal((currentIndex + 1) % cells.length);
   }
 
-  // Listeners
+  // ─── listeners ──────────────────────────────────────────────────
   document.querySelector('[data-action="reset"]')!.addEventListener('click', reset);
 
   document.querySelectorAll<HTMLButtonElement>('.a-header [data-view]').forEach(btn => {
@@ -285,6 +380,10 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
 
   document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
     btn.addEventListener('click', () => setSeries(btn.dataset.series!));
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.a-lang').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang as Lang));
   });
 
   allCells.forEach(cell => {
@@ -312,7 +411,6 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     if (e.key === 'ArrowRight') nextModal();
   });
 
-  // Focus trap
   modal.addEventListener('keydown', e => {
     if (e.key !== 'Tab') return;
     const focusable = Array.from(modal.querySelectorAll<HTMLElement>('button:not([disabled])'));
@@ -325,7 +423,6 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     }
   });
 
-  // Swipe mobile
   let touchStartX = 0;
   let touchStartY = 0;
   modal.addEventListener('touchstart', e => {
@@ -340,4 +437,7 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       dx < 0 ? nextModal() : prevModal();
     }
   }, { passive: true });
+
+  // ─── init ───────────────────────────────────────────────────────
+  applyLang(detectLang());
 </script>
