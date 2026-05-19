@@ -75,7 +75,7 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
           >
             <div class="mica-cell__sheet" data-aspect={w.aspect}>
               {w.image
-                ? <img src={`/images/${w.image}`} alt={w.title} loading="lazy" />
+                ? <img src={`${import.meta.env.BASE_URL}/images/${w.image}`} alt={w.title} loading="lazy" />
                 : <PhotoPlaceholder work={w} />
               }
               <div class="mica-cell__tint"></div>
