@@ -118,3 +118,51 @@ Porteado desde alt-a.jsx + shared-core.jsx + placeholders.jsx + works-data.js �
 - CV real: exposiciones, residencias, premios
 - Links reales: Instagram, Are.na, dossier PDF
 - `<title>` del sitio: confirmar con Mica la descripción ("Fotografía analógica", "Obra", etc.)
+
+---
+
+## Estado al 2026-05-24 (sesión grande — 9 commits)
+
+### Movido a DevStudio
+- Proyecto migrado de `IALAB/projects/micapuig-site` → `DEVSTUDIO/projects/micapuig-site`. Ahora es proyecto de desarrollo formal de DevStudio.
+
+### Material recibido de Mica
+- Carpeta de Drive `~/IA_share/WEB/` (compartida por Mica): CV ES/PT, "Sobre Micaela Puig", "Sobre:About", "Textos" (poema "Te veo" + texto Aurelia), 21 fotos de obra + 2 videos, 17 fotos de muestras y otros.
+
+### Sprints ejecutados
+- **Sprint 1** (`c38d0ea`): Bio + CV reales (reemplazado texto inventado), poema "Te veo" central + callout en serie Aranka, contacto SP, dead code limpiado.
+- **Sprint 2** (`3050d8f`): 9 obras nuevas procesadas a 1800px/85q. Total 17 → 26 obras.
+- **Sprint 3** (`49a210d`): Header rediseñado (nombre hero Playfair 34px), sección Videos placeholder.
+- Patch (`ed56afb`): link real de IG `@micapuig`.
+- **Sprint 4** (`53ade6a`): sección Muestras (12 entradas, 17 fotos a 1400px/85q), fix modal full-image, sin Are.na.
+- Patch (`6a96785`): favicon "MP" serif italic.
+- **Sprint 5** (`837f984`): SEO Capa 1 completa — i18n indexable (`/`, `/en/`, `/pt/`), title con keywords, meta description multilingüe, OG image 1200×630 generada, JSON-LD Person schema, sitemap.xml automático con cross-hreflang, robots.txt, alt text rico, width/height en imágenes (CLS), H1 SEO oculto, toggle de idioma vía URL en lugar de JS re-render.
+- Patch (`8d3b561`): doc de estado en repo + Drive.
+
+### Refactor estructural (Sprint 5)
+- `src/data/copy.ts`: strings UI multilingües centralizados
+- `src/data/works.ts`: data layer puro (sin palette/layout/LayoutId que eran dead code)
+- `src/components/Portfolio.astro`: componente parametrizado por `lang`
+- 3 páginas estáticas: `pages/{index, en/index, pt/index}.astro`
+
+### Pendiente próxima sesión
+**Contenido (Mica)**:
+- Metadata real por obra (técnica, medidas, año)
+- Confirmar `naturaleza-sin-titulo.jpg` vs `naturaleza-hoja.jpg` (¿borrar duplicada?)
+- Reemplazos: díptico blanco/rojo vs los 2 individuales "Diálogo", hermanas unificada vs Hermanas I/II, díptico Aurelia vs Aurelia xilo
+- PDF del dossier para botón "Descargar dossier"
+- Confirmar mail `estudio@micaelapuig.com`
+- Decidir hosting de videos (Vimeo €10/mes sin ads vs YouTube gratis con ads)
+- Bio + statement EN reales (hoy traducción mía)
+
+**Técnico**:
+- Migración a `micaelapuig.com` (pasos exactos en `seo-plan.md` + `estado-2026-05-24.md`)
+- SEO Capa 2: Search Console, backlinks (Move, Alê, Kentler), bio IG con link
+- SEO Capa 3 (largo plazo): Are.na, Artsy, Behance, prensa
+- Limpiar `public/preview/` (216 KB de mockups históricos)
+- WebP (~30% reducción de peso)
+
+### Docs nuevos
+- `docs/seo-plan.md` — plan SEO completo Capa 1/2/3 + pasos migración dominio
+- `docs/estado-2026-05-24.md` — cierre de sesión (capa Mica + capa técnica)
+- Copias en `~/IA_share/WEB/` (Drive de Mica): `Avance sitio web - 2026-05-24.md` + `Plan SEO - 2026-05-24.md`
