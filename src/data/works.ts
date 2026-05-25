@@ -45,6 +45,17 @@ export const WORKS: Work[] = [
   { id: 15, image: 'naturaleza-entramado.jpg',      series: 'naturaleza', title: 'Entramado',            year: 2024, technique: '', dimensions: '', aspect: 'vertical',   palette: P, layout: 'vsoft' },
   { id: 16, image: 'naturaleza-rodeada-2.jpg',      series: 'naturaleza', title: 'Rodeada 2',            year: 2024, technique: '', dimensions: '', aspect: 'vertical',   palette: P, layout: 'vsoft' },
   { id: 17, image: 'naturaleza-sin-titulo.jpg',     series: 'naturaleza', title: 'Sin título',           year: 2024, technique: '', dimensions: '', aspect: 'horizontal', palette: P, layout: 'vsoft' },
+
+  // Nuevas (Sprint 2 — 2026-05-24). Decidir si reemplazan a algunas anteriores (díptico blanco/rojo vs los 2 diálogos individuales, etc.)
+  { id: 18, image: 'aranka-te-veo.jpg',             series: 'aranka',     title: 'Te veo I, II, III',    year: 2024, technique: '', dimensions: '', aspect: 'horizontal', palette: P, layout: 'vsoft' },
+  { id: 19, image: 'aranka-hermanas.jpg',           series: 'aranka',     title: 'Hermanas',             year: 2024, technique: '', dimensions: '', aspect: 'horizontal', palette: P, layout: 'vsoft' },
+  { id: 20, image: 'aranka-diptico-blanco-rojo.jpg',series: 'aranka',     title: 'Díptico en blanco y rojo', year: 2024, technique: '', dimensions: '', aspect: 'horizontal', palette: P, layout: 'vsoft' },
+  { id: 21, image: 'aranka-ronda-redonda.jpg',      series: 'aranka',     title: 'La ronda redonda',     year: 2024, technique: '', dimensions: '', aspect: 'square',     palette: P, layout: 'vsoft' },
+  { id: 22, image: 'aranka-diptico-aurelia.jpg',    series: 'aranka',     title: 'Díptico Aurelia Aranka', year: 2024, technique: '', dimensions: '', aspect: 'horizontal', palette: P, layout: 'vsoft' },
+  { id: 23, image: 'infancia-escuela.jpg',          series: 'infancia',   title: 'Escuela',              year: 2024, technique: '', dimensions: '', aspect: 'horizontal', palette: P, layout: 'vsoft' },
+  { id: 24, image: 'infancia-juega.jpg',            series: 'infancia',   title: 'Juega I y II',         year: 2024, technique: '', dimensions: '', aspect: 'horizontal', palette: P, layout: 'vsoft' },
+  { id: 25, image: 'infancia-nube.jpg',             series: 'infancia',   title: 'Nube',                 year: 2024, technique: '', dimensions: '', aspect: 'square',     palette: P, layout: 'vsoft' },
+  { id: 26, image: 'naturaleza-hoja.jpg',           series: 'naturaleza', title: 'Hoja',                 year: 2024, technique: '', dimensions: '', aspect: 'horizontal', palette: P, layout: 'vsoft' },
 ];
 
 export const SERIES = [
