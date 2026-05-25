@@ -22,15 +22,8 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
   </svg>
 
   <header class="a-header">
-    <div class="a-header__main">
-      <button class="a-brand a-link" data-action="reset">Micaela Puig</button>
-      <span class="a-sep">·</span>
-      <button class="a-link is-active" data-view="works" data-i18n="tab.works">{COPY.tabs.works}</button>
-      <span class="a-sep">·</span>
-      <button class="a-link" data-view="bio" data-i18n="tab.bio">{COPY.tabs.bio}</button>
-      <span class="a-sep">·</span>
-      <button class="a-link" data-view="contact" data-i18n="tab.contact">{COPY.tabs.contact}</button>
-
+    <div class="a-header__hero">
+      <button class="a-brand" data-action="reset">Micaela Puig</button>
       <div class="a-langs">
         <button class="a-lang is-active" data-lang="ES">ES</button>
         <span class="a-lang-sep">·</span>
@@ -40,6 +33,15 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       </div>
     </div>
     <p class="a-header__bio" data-i18n="bio.short">{COPY.bioShort}</p>
+    <nav class="a-header__nav">
+      <button class="a-link is-active" data-view="works" data-i18n="tab.works">{COPY.tabs.works}</button>
+      <span class="a-sep">·</span>
+      <button class="a-link" data-view="bio" data-i18n="tab.bio">{COPY.tabs.bio}</button>
+      <span class="a-sep">·</span>
+      <button class="a-link" data-view="videos" data-i18n="tab.videos">{COPY.videosTitle}</button>
+      <span class="a-sep">·</span>
+      <button class="a-link" data-view="contact" data-i18n="tab.contact">{COPY.tabs.contact}</button>
+    </nav>
   </header>
 
   <main>
@@ -133,6 +135,30 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       ))}
     </section>
 
+    <section class="a-videos" data-view-section="videos">
+      <h2 class="a-bio__label" data-i18n="videos.label">{COPY.videosTitle}</h2>
+      <div class="a-videos__grid">
+        {COPY.videos.map(v => (
+          <article class="a-video-card">
+            <div class="a-video-card__poster">
+              {v.poster
+                ? <img src={`${import.meta.env.BASE_URL}/videos/${v.poster}`} alt={v.title} loading="lazy" />
+                : <div class="a-video-card__poster--empty"></div>
+              }
+              <div class="a-video-card__play" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 48 48">
+                  <circle cx="24" cy="24" r="23" fill="none" stroke="currentColor" stroke-width="1" opacity="0.65" />
+                  <path d="M19 16 L34 24 L19 32 Z" fill="currentColor" opacity="0.85" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="a-video-card__title">{v.title}</h3>
+            <p class="a-video-card__note" data-i18n="videos.soon">{v.note}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
     <section class="a-contact" data-view-section="contact">
       <p class="a-contact__mail">
         <a href={`mailto:${COPY.contact.mail}`}>{COPY.contact.mail}</a>
@@ -188,15 +214,16 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
 
   const DICT: Record<string, Record<string, string | string[]>> = {
     es: {
-      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.contact': 'Contacto',
+      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.videos': 'Videos', 'tab.contact': 'Contacto',
       'filter.all': 'Todas',
       'series.infancia': 'Infancia', 'series.naturaleza': 'Naturaleza', 'series.aranka': 'Aranka',
-      'bio.short': 'Argentina, 1976. Radicada en São Paulo desde 2020. Artista visual y profesora de arte con especialidad en grabado.',
+      'bio.short': 'Artista visual y profesora de arte con especialidad en grabado.',
       'bio.statement': 'Statement', 'bio.cv': 'Currículum',
       'cv.indiv': 'Exposiciones individuales', 'cv.colec': 'Exposiciones colectivas',
       'cv.resid': 'Residencias', 'cv.premios': 'Premios',
       'cv.colab': 'Colaboraciones', 'cv.form': 'Formación', 'cv.comp': 'Complementarios',
       'poem.context': 'Sobre la serie',
+      'videos.label': 'Videos', 'videos.soon': 'Video — disponible próximamente',
       'contact.city': 'São Paulo · Brasil',
       'contact.dossier': 'Descargar dossier (PDF)',
       'modal.close': 'Cerrar', 'modal.prev': 'Anterior', 'modal.next': 'Siguiente',
@@ -209,15 +236,16 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       ],
     },
     en: {
-      'tab.works': 'Works', 'tab.bio': 'Bio', 'tab.contact': 'Contact',
+      'tab.works': 'Works', 'tab.bio': 'Bio', 'tab.videos': 'Videos', 'tab.contact': 'Contact',
       'filter.all': 'All',
       'series.infancia': 'Childhood', 'series.naturaleza': 'Nature', 'series.aranka': 'Aranka',
-      'bio.short': 'Argentina, 1976. Based in São Paulo since 2020. Visual artist and art teacher, specialized in printmaking.',
+      'bio.short': 'Visual artist and art teacher, specialized in printmaking.',
       'bio.statement': 'Statement', 'bio.cv': 'CV',
       'cv.indiv': 'Solo exhibitions', 'cv.colec': 'Group exhibitions',
       'cv.resid': 'Residencies', 'cv.premios': 'Awards',
       'cv.colab': 'Collaborations', 'cv.form': 'Education', 'cv.comp': 'Complementary studies',
       'poem.context': 'About the series',
+      'videos.label': 'Videos', 'videos.soon': 'Video — coming soon',
       'contact.city': 'São Paulo · Brazil',
       'contact.dossier': 'Download dossier (PDF)',
       'modal.close': 'Close', 'modal.prev': 'Previous', 'modal.next': 'Next',
@@ -230,15 +258,16 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       ],
     },
     pt: {
-      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.contact': 'Contato',
+      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.videos': 'Vídeos', 'tab.contact': 'Contato',
       'filter.all': 'Todas',
       'series.infancia': 'Infância', 'series.naturaleza': 'Natureza', 'series.aranka': 'Aranka',
-      'bio.short': 'Argentina, 1976. Radicada em São Paulo desde 2020. Artista visual e professora de arte com especialidade em gravura.',
+      'bio.short': 'Artista visual e professora de arte com especialidade em gravura.',
       'bio.statement': 'Statement', 'bio.cv': 'Currículo',
       'cv.indiv': 'Exposições individuais', 'cv.colec': 'Exposições coletivas',
       'cv.resid': 'Residências', 'cv.premios': 'Prêmios',
       'cv.colab': 'Colaborações', 'cv.form': 'Formação', 'cv.comp': 'Complementares',
       'poem.context': 'Sobre a série',
+      'videos.label': 'Vídeos', 'videos.soon': 'Vídeo — disponível em breve',
       'contact.city': 'São Paulo · Brasil',
       'contact.dossier': 'Baixar dossiê (PDF)',
       'modal.close': 'Fechar', 'modal.prev': 'Anterior', 'modal.next': 'Seguinte',
@@ -312,7 +341,7 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     return allCells.filter(c => c.dataset.hidden !== 'true');
   }
 
-  function setView(view: 'works' | 'bio' | 'contact') {
+  function setView(view: 'works' | 'bio' | 'videos' | 'contact') {
     document.querySelectorAll<HTMLElement>('[data-view-section]').forEach(el => {
       el.classList.toggle('is-active', el.dataset.viewSection === view);
       el.classList.toggle('a-fade', el.dataset.viewSection === view);

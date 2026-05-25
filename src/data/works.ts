@@ -78,7 +78,7 @@ export const COPY = {
   allLabel: 'Todas',
   bioTitle: 'Statement',
   cvTitle: 'Currículum',
-  bioShort: 'Argentina, 1976. Radicada en São Paulo desde 2020. Artista visual y profesora de arte con especialidad en grabado.',
+  bioShort: 'Artista visual y profesora de arte con especialidad en grabado.',
   groups: {
     indiv: 'Exposiciones individuales',
     colec: 'Exposiciones colectivas',
@@ -146,6 +146,23 @@ export const COPY = {
       ['1998', 'Curso de fotografía con Baravino Deboto', '—', ''],
     ],
   } as Record<string, string[][]>,
+  videosTitle: 'Videos',
+  videos: [
+    {
+      id: 'te-veo',
+      title: 'Te veo',
+      poster: 'te-veo-poster.jpg',
+      note: 'Video — disponible próximamente',
+      relatedSeries: 'aranka' as const,
+    },
+    {
+      id: 'natombresa',
+      title: 'Natombresa',
+      poster: '',
+      note: 'Video — disponible próximamente',
+      relatedSeries: 'naturaleza' as const,
+    },
+  ],
   poem: {
     title: 'Te veo',
     lines: [
