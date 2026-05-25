@@ -1,9 +1,8 @@
 # Plan SEO — micapuig-site
 
-Fecha: 2026-05-24
-Estado: Capa 1 en ejecución (Sprint 5)
-Dominio actual: jfdominguez1.github.io/micapuig-site/
-Dominio destino: micaelapuig.com (comprado, pendiente migrar DNS)
+Fecha actualización: 2026-05-25
+Estado: **Capa 1 ✅ completa — Capa 2 pendiente**
+Dominio live: https://micaelapuig.com (Cloudflare Workers, auto-deploy desde GitHub)
 
 ---
 
@@ -16,56 +15,51 @@ Dominio destino: micaelapuig.com (comprado, pendiente migrar DNS)
 
 ---
 
-## 🟢 Capa 1 — En código (Sprint 5)
+## 🟢 Capa 1 — En código ✅ COMPLETA
 
-Implementado en esta sesión:
+- [x] `<title>` parametrizado por idioma con keywords: "Micaela Puig — Artista visual y grabadora · São Paulo"
+- [x] Meta description multilingüe (ES/EN/PT) descriptiva y con keywords
+- [x] Open Graph image (1200×630 .jpg) generada
+- [x] Twitter card con la misma OG image
+- [x] JSON-LD `Person` schema en el `<head>`
+- [x] `sitemap.xml` automático con `@astrojs/sitemap`
+- [x] `robots.txt` apuntando al sitemap
+- [x] `alt` text enriquecido: "Hermanas — serie Aranka, Micaela Puig (2024)"
+- [x] `width` + `height` en `<img>` para Core Web Vitals (CLS)
+- [x] i18n indexable (`/`, `/en/`, `/pt/`) con Astro i18n routing
+- [x] `hreflang` tags entre versiones
+- [x] `canonical` por página
+- [x] Country redirect vía CF-IPCountry header (BR/PT→/pt/, resto→/en/)
 
-- [ ] `<title>` parametrizado por idioma con keywords: "Micaela Puig — Artista visual y grabadora · São Paulo"
-- [ ] Meta description multilingüe (ES/EN/PT) descriptiva y con keywords
-- [ ] Open Graph image (1200×630 .jpg) generada
-- [ ] Twitter card con la misma OG image
-- [ ] JSON-LD `Person` schema en el `<head>`
-- [ ] `sitemap.xml` automático con `@astrojs/sitemap`
-- [ ] `robots.txt` apuntando al sitemap
-- [ ] `alt` text enriquecido: "Hermanas — serie Aranka, Micaela Puig (2024)"
-- [ ] `width` + `height` en `<img>` para Core Web Vitals (CLS)
-- [ ] i18n indexable (`/`, `/en/`, `/pt/`) con Astro i18n routing
-- [ ] `hreflang` tags entre versiones
-- [ ] `canonical` por página
+## 🟡 Capa 2 — Lo hace Mica / vos (próximas semanas)
 
-## 🟡 Capa 2 — Lo hace Mica / vos (1-2h, después)
-
-- [ ] Verificar `micaelapuig.com` en Google Search Console
-- [ ] Submit `sitemap.xml` desde Search Console
-- [ ] Link al sitio en bio de Instagram (@micapuig)
-- [ ] Pedir backlinks a Move Arte, Alê Espacio de Arte, Kentler (mail al curador con el link)
-- [ ] Bio + statement reales en EN (hoy los traduje yo, mejor texto propio)
-- [ ] Metadata por obra: técnica + medidas + año real (hoy todo 2024 / vacío)
+- [ ] **Google Search Console**: verificar `micaelapuig.com` vía DNS (TXT en Cloudflare) + submit sitemap `https://micaelapuig.com/sitemap-index.xml`
+- [ ] **Bio Instagram**: agregar `micaelapuig.com` en la bio de @micapuig (backlink de alto DA, impacto inmediato)
+- [ ] **Backlinks institucionales**: mail a Alê Espacio de Arte, Kentler International Drawing Space (Brooklyn), ISSA — pedir que la listan con link
+- [ ] **Move Arte**: si tienen directorio de artistas, pedir inclusión
+- [ ] Bio + statement reales en EN y PT (hoy son traducciones nuestras)
+- [ ] Metadata por obra: técnica + medidas + año real (hoy vacío en works.ts)
 - [ ] Decidir analytics: Plausible Cloud (€9/mes, sin cookies) o GA4 (gratis, con cookies + banner)
 
 ## 🔴 Capa 3 — Largo plazo (constante)
 
-- [ ] Crear perfiles con link al sitio: Are.na, Artsy, Behance, Linktree
-- [ ] Cada nota de prensa o catálogo nuevo → linkear al sitio
-- [ ] Si hay coverage en prensa → página de Wikipedia
+- [ ] **Are.na**: crear perfil con link al portfolio (bien visto en mundo del arte contemporáneo)
+- [ ] **Artsy**: crear perfil de artista (gratis, alta visibilidad en coleccionistas)
+- [ ] **Behance**: si tiene cuenta, agregar link
+
+### ❓ A definir con Mica
+
+- [ ] **LinkedIn**: ¿tiene perfil o quiere crear uno? Artistas visuales lo usan cada vez más para curadores/galeristas internacionales. Un perfil completo con link al portfolio + lista de exposiciones es un backlink fuerte y aparece en búsquedas de nombre.
+
+- [ ] **Wikipedia**: ¿ya hay cobertura en prensa/catálogos editados que justifique una entrada? Wikipedia requiere "notabilidad verificable" (artículos en medios, catálogos de instituciones). Si hay material publicado (Kentler, Bienal REA, notas en prensa), podría calificar. Una entrada de Wikipedia es el backlink con mayor impacto SEO posible para un artista. Revisar qué publicaciones existen antes de intentarlo.
+
+## 🔵 Técnico pendiente
+
+- [ ] WebP: convertir las 26 imágenes JPG a WebP con `<picture>` fallback (mejora Core Web Vitals ~30%)
+- [ ] Limpiar `public/preview/` legacy (~216KB no usados)
+- [ ] PDF dossier para el botón de descarga en Contacto
 
 ---
-
-## Migración a `micaelapuig.com` (paso aparte cuando se decida)
-
-1. Cambiar `astro.config.mjs`:
-   - `site: 'https://micaelapuig.com'`
-   - Quitar `base: '/micapuig-site'`
-2. Crear `public/CNAME` con contenido `micaelapuig.com`
-3. En GoDaddy/Namecheap (donde se compró):
-   - 4 registros A apuntando a IPs de GitHub Pages: `185.199.108.153`, `.109.153`, `.110.153`, `.111.153`
-   - 1 registro CNAME para `www` → `jfdominguez1.github.io`
-4. En GitHub repo settings → Pages → Custom domain → `micaelapuig.com` + enforce HTTPS
-5. Esperar propagación DNS (5 min — 2 h)
-6. Verificar SSL activo
-7. GitHub Pages automáticamente sirve redirect 301 desde `jfdominguez1.github.io/micapuig-site/*` → no se rompen links viejos
-
-**Nota**: ejecutar la migración **antes** de difundir el nuevo dominio. Google penaliza redirects masivos pero respeta 301 hechos correctamente.
 
 ---
 
