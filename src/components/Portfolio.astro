@@ -1,0 +1,497 @@
+---
+import { WORKS, SERIES, EXHIBITIONS, VIDEOS, CV_DATA } from '../data/works';
+import { COPY, POEM, langPath, type Lang } from '../data/copy';
+import { IMG_DIMS } from '../data/image-dimensions';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = COPY[lang];
+const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '') + '/';
+
+// CV en orden estable: indiv → colec → resid → premios → colab → form → comp
+const cvOrder = ['indiv', 'colec', 'resid', 'premios', 'colab', 'form', 'comp'];
+const cvEntries: [string, string[][]][] = cvOrder
+  .filter(k => CV_DATA[k]?.length)
+  .map(k => [k, CV_DATA[k]]);
+
+const dim = (path: string): { w?: number; h?: number } => IMG_DIMS[path] ?? {};
+
+// Año más reciente entre las obras + año actual para alt text
+const seriesLabel: Record<string, string> = {
+  aranka: t.series.aranka,
+  infancia: t.series.infancia,
+  naturaleza: t.series.naturaleza,
+};
+---
+<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <filter id="mica-grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix
+        type="matrix"
+        values="0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0 0
+                0 0 0 0.18 0"
+      />
+    </filter>
+  </defs>
+</svg>
+
+<header class="a-header">
+  <div class="a-header__hero">
+    <a class="a-brand" href={langPath(lang)} data-action="reset">Micaela Puig</a>
+    <div class="a-langs">
+      <a class={`a-lang ${lang === 'es' ? 'is-active' : ''}`} href={langPath('es')} hreflang="es">ES</a>
+      <span class="a-lang-sep">·</span>
+      <a class={`a-lang ${lang === 'en' ? 'is-active' : ''}`} href={langPath('en')} hreflang="en">EN</a>
+      <span class="a-lang-sep">·</span>
+      <a class={`a-lang ${lang === 'pt' ? 'is-active' : ''}`} href={langPath('pt')} hreflang="pt-BR">PT</a>
+    </div>
+  </div>
+  <p class="a-header__bio">{t.bioShort}</p>
+  <nav class="a-header__nav">
+    <button class="a-link is-active" data-view="works">{t.tabs.works}</button>
+    <span class="a-sep">·</span>
+    <button class="a-link" data-view="bio">{t.tabs.bio}</button>
+    <span class="a-sep">·</span>
+    <button class="a-link" data-view="exhibitions">{t.tabs.exhibitions}</button>
+    <span class="a-sep">·</span>
+    <button class="a-link" data-view="videos">{t.tabs.videos}</button>
+    <span class="a-sep">·</span>
+    <button class="a-link" data-view="contact">{t.tabs.contact}</button>
+  </nav>
+</header>
+
+<main>
+  <section class="a-works is-active" data-view-section="works">
+    <h1 class="a-vh">Micaela Puig — {t.bioShort}</h1>
+    <div class="a-works__sub">
+      <button class="is-active" data-series="all">
+        <span>{t.allLabel}</span><span class="a-works__sub-n"> ({WORKS.length})</span>
+      </button>
+      {SERIES.map((s) => {
+        const count = WORKS.filter(w => w.series === s.id).length;
+        return (
+          <>
+            <span class="a-works__sub-sep">·</span>
+            <button data-series={s.id}>
+              <span>{seriesLabel[s.id]}</span><span class="a-works__sub-n"> ({count})</span>
+            </button>
+          </>
+        );
+      })}
+    </div>
+
+    <aside class="a-poem-callout" id="poem-callout" hidden>
+      <div class="a-poem-callout__inner">
+        <h2 class="a-poem-callout__label">{t.poemContext}</h2>
+        <p class="a-poem-callout__title">{POEM.title}</p>
+        <div class="a-poem-callout__lines">
+          {POEM.lines.map(line => <p>{line}</p>)}
+        </div>
+        <p class="a-poem-callout__sig">— {POEM.signature}</p>
+      </div>
+    </aside>
+
+    <div class="a-grid" id="grid">
+      {WORKS.map((w, i) => {
+        const path = `images/${w.image}`;
+        const d = dim(path);
+        const alt = `${w.title} — ${seriesLabel[w.series]}, Micaela Puig (${w.year})`;
+        return (
+          <button
+            class="mica-cell a-cell"
+            data-index={i}
+            data-series={w.series}
+            data-title={w.title}
+            data-technique={w.technique}
+            data-dimensions={w.dimensions}
+            data-year={w.year}
+            data-aspect={w.aspect}
+            aria-label={alt}
+          >
+            <div class="mica-cell__sheet" data-aspect={w.aspect}>
+              <img src={`${baseUrl}${path}`} alt={alt} loading="lazy" width={d.w} height={d.h} />
+              <div class="mica-cell__tint"></div>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="a-bio" data-view-section="bio">
+    <h2 class="a-bio__label">{t.bioTitle}</h2>
+    <div>
+      {t.statement.map(p => <p class="a-bio__p">{p}</p>)}
+    </div>
+
+    <figure class="a-poem">
+      <h2 class="a-poem__title">{POEM.title}</h2>
+      <div class="a-poem__body">
+        {POEM.lines.map(line => <p>{line}</p>)}
+      </div>
+      <figcaption class="a-poem__sig">— {POEM.signature}</figcaption>
+    </figure>
+
+    <hr class="a-rule" />
+    <h2 class="a-bio__label">{t.cvTitle}</h2>
+    {cvEntries.map(([key, entries]) => (
+      <div class="a-cv__group">
+        <h3 class="a-cv__heading">{t.groups[key as keyof typeof t.groups]}</h3>
+        <ul>
+          {entries.map((row) => (
+            <li class="a-cv__row">
+              {row[0] && <span class="a-cv__year">{row[0]}</span>}
+              <span class="a-cv__title">{row[1]}</span>
+              {row[2] && row[2] !== '—' && <>
+                <span class="a-cv__sep">·</span>
+                <span class="a-cv__inst">{row[2]}</span>
+              </>}
+              {row[3] && <>
+                <span class="a-cv__sep">·</span>
+                <span class="a-cv__city">{row[3]}</span>
+              </>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <section class="a-exhibitions" data-view-section="exhibitions">
+    <h2 class="a-bio__label">{t.exhibitionsTitle}</h2>
+    <div class="a-exh__grid">
+      {EXHIBITIONS.map(ex => (
+        <article class="a-exh-card">
+          <div class="a-exh-card__media">
+            {ex.images.map((img, idx) => {
+              const path = `exhibitions/${img}`;
+              const d = dim(path);
+              const alt = `${ex.title}${ex.year ? `, ${ex.year}` : ''} — Micaela Puig`;
+              return (
+                <div class={`a-exh-card__img ${idx === 0 ? 'is-primary' : ''}`}>
+                  <img src={`${baseUrl}${path}`} alt={alt} loading="lazy" width={d.w} height={d.h} />
+                </div>
+              );
+            })}
+          </div>
+          <div class="a-exh-card__body">
+            {ex.year && <span class="a-exh-card__year">{ex.year}</span>}
+            <h3 class="a-exh-card__title">
+              {ex.url
+                ? <a href={ex.url} target="_blank" rel="noopener noreferrer">{ex.title}</a>
+                : ex.title
+              }
+            </h3>
+            {ex.venue && <p class="a-exh-card__venue">{ex.venue}</p>}
+            {ex.city  && <p class="a-exh-card__city">{ex.city}</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="a-videos" data-view-section="videos">
+    <h2 class="a-bio__label">{t.videosTitle}</h2>
+    <div class="a-videos__grid">
+      {VIDEOS.map(v => {
+        const path = v.poster ? `videos/${v.poster}` : '';
+        const d = path ? dim(path) : {};
+        return (
+          <article class="a-video-card">
+            <div class="a-video-card__poster">
+              {v.poster
+                ? <img src={`${baseUrl}${path}`} alt={`${v.title} — video, Micaela Puig`} loading="lazy" width={d.w} height={d.h} />
+                : <div class="a-video-card__poster--empty"></div>
+              }
+              <div class="a-video-card__play" aria-hidden="true">
+                <svg width="48" height="48" viewBox="0 0 48 48">
+                  <circle cx="24" cy="24" r="23" fill="none" stroke="currentColor" stroke-width="1" opacity="0.65" />
+                  <path d="M19 16 L34 24 L19 32 Z" fill="currentColor" opacity="0.85" />
+                </svg>
+              </div>
+            </div>
+            <h3 class="a-video-card__title">{v.title}</h3>
+            <p class="a-video-card__note">{t.videoSoon}</p>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="a-contact" data-view-section="contact">
+    <p class="a-contact__mail">
+      <a href={`mailto:${t.contact.mail}`}>{t.contact.mail}</a>
+    </p>
+    <p class="a-contact__city">{t.contact.city}</p>
+    <p class="a-contact__row"><a href="#">{t.contact.dossier}</a></p>
+    <p class="a-contact__row">
+      <a href="https://www.instagram.com/micapuig/" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </p>
+  </section>
+</main>
+
+<footer class="a-footer">{t.footer}</footer>
+
+<div class="mica-modal" id="modal" role="dialog" aria-modal="true" hidden>
+  <div class="mica-modal__topbar">
+    <span class="mica-modal__serie" id="modal-serie"></span>
+    <button class="mica-modal__close" data-action="close-modal" aria-label={t.modal.close}>
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+        <path d="M1 1 L13 13 M13 1 L1 13" stroke="currentColor" stroke-width="1" fill="none" />
+      </svg>
+    </button>
+  </div>
+  <button class="mica-modal__arrow mica-modal__arrow--left" data-action="prev-modal" aria-label={t.modal.prev}>
+    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+      <path d="M14 4 L7 11 L14 18" stroke="currentColor" stroke-width="1" fill="none" />
+    </svg>
+  </button>
+  <button class="mica-modal__arrow mica-modal__arrow--right" data-action="next-modal" aria-label={t.modal.next}>
+    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+      <path d="M8 4 L15 11 L8 18" stroke="currentColor" stroke-width="1" fill="none" />
+    </svg>
+  </button>
+  <div class="mica-modal__stage" id="modal-stage">
+    <div class="mica-modal__sheet" id="modal-sheet">
+      <div id="modal-sheet-content"></div>
+    </div>
+    <div class="mica-modal__caption" id="modal-caption">
+      <h2 class="mica-cap__title" id="modal-title"></h2>
+      <p class="mica-cap__tech" id="modal-tech"></p>
+      <p class="mica-cap__meta" id="modal-meta"></p>
+    </div>
+    <div class="mica-modal__counter" id="modal-counter"></div>
+  </div>
+</div>
+
+<script>
+  // ─── Toggle de idioma → redirige al click (no re-render JS)
+  // El contenido ya está renderizado server-side en cada ruta.
+  // Detección automática: solo si nunca visitó (sin localStorage).
+  type Lang = 'es' | 'en' | 'pt';
+  const PATHS: Record<Lang, string> = { es: '/', en: '/en/', pt: '/pt/' };
+  const baseURL = (import.meta as any).env.BASE_URL || '/';
+
+  function detectInitialLang(): Lang | null {
+    const stored = localStorage.getItem('mica-lang') as Lang | null;
+    if (stored === 'es' || stored === 'en' || stored === 'pt') return stored;
+    const nav = (navigator.language || '').toLowerCase();
+    if (nav.startsWith('pt')) return 'pt';
+    if (nav.startsWith('en')) return 'en';
+    return null;
+  }
+
+  // Auto-redirect en la primera visita
+  function maybeRedirect() {
+    const here = window.location.pathname;
+    // Solo redirect si estamos en la home raíz Y es la primera visita
+    const cleanBase = baseURL.endsWith('/') ? baseURL : baseURL + '/';
+    const isRoot = here === cleanBase || here === cleanBase.replace(/\/$/, '');
+    if (!isRoot) return;
+    if (localStorage.getItem('mica-lang')) return;
+    const wanted = detectInitialLang();
+    if (!wanted || wanted === 'es') return;
+    const dest = (cleanBase.replace(/\/$/, '') + PATHS[wanted]).replace(/\/+/g, '/');
+    if (dest !== here) window.location.replace(dest);
+  }
+  maybeRedirect();
+
+  // Persistir idioma cuando el usuario clickea el toggle
+  document.querySelectorAll<HTMLAnchorElement>('.a-lang').forEach(a => {
+    a.addEventListener('click', () => {
+      const code = (a.getAttribute('hreflang') || 'es').slice(0, 2) as Lang;
+      localStorage.setItem('mica-lang', code);
+    });
+  });
+
+  // ─── state ──────────────────────────────────────────────────────
+  let currentIndex: number | null = null;
+  let _scrollY = 0;
+  let _prevFocus: HTMLElement | null = null;
+
+  const grid = document.getElementById('grid')!;
+  const allCells = Array.from(grid.querySelectorAll<HTMLButtonElement>('.a-cell'));
+  const modal = document.getElementById('modal')!;
+  const modalSerie = document.getElementById('modal-serie')!;
+  const modalSheetContent = document.getElementById('modal-sheet-content')!;
+  const modalTitle = document.getElementById('modal-title')!;
+  const modalTech = document.getElementById('modal-tech')!;
+  const modalMeta = document.getElementById('modal-meta')!;
+  const modalCounter = document.getElementById('modal-counter')!;
+
+  // Mapeo serie → label localizado, leído del botón del filtro
+  function seriesLabel(seriesId: string): string {
+    const btn = document.querySelector<HTMLButtonElement>(`.a-works__sub [data-series="${seriesId}"]`);
+    if (!btn) return seriesId;
+    const span = btn.querySelector('span');
+    return span?.textContent?.trim() ?? seriesId;
+  }
+
+  function visibleCells(): HTMLButtonElement[] {
+    return allCells.filter(c => c.dataset.hidden !== 'true');
+  }
+
+  function setView(view: 'works' | 'bio' | 'exhibitions' | 'videos' | 'contact') {
+    document.querySelectorAll<HTMLElement>('[data-view-section]').forEach(el => {
+      el.classList.toggle('is-active', el.dataset.viewSection === view);
+      el.classList.toggle('a-fade', el.dataset.viewSection === view);
+    });
+    document.querySelectorAll<HTMLButtonElement>('.a-header [data-view]').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.view === view);
+    });
+    closeModal();
+  }
+
+  function setSeries(seriesId: string) {
+    document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.series === seriesId);
+    });
+    const callout = document.getElementById('poem-callout');
+    if (callout) callout.hidden = seriesId !== 'aranka';
+    grid.style.opacity = '0';
+    setTimeout(() => {
+      allCells.forEach(cell => {
+        const match = seriesId === 'all' || cell.dataset.series === seriesId;
+        cell.dataset.hidden = match ? 'false' : 'true';
+      });
+      grid.style.opacity = '';
+    }, 150);
+  }
+
+  function reset() {
+    setSeries('all');
+    setView('works');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function lockScroll() {
+    _scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${_scrollY}px`;
+    document.body.style.width = '100%';
+    document.body.style.overflowY = 'scroll';
+  }
+
+  function unlockScroll() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflowY = '';
+    window.scrollTo(0, _scrollY);
+  }
+
+  function openModal(index: number) {
+    const cells = visibleCells();
+    if (index < 0 || index >= cells.length) return;
+    currentIndex = index;
+    const cell = cells[index];
+    modalSerie.textContent = seriesLabel(cell.dataset.series!);
+    modalTitle.textContent = cell.dataset.title!.toUpperCase();
+    modalTech.textContent = cell.dataset.technique || '';
+    const dims = cell.dataset.dimensions || '';
+    const year = cell.dataset.year || '';
+    modalMeta.textContent = dims && year ? `${dims} — ${year}` : (dims || year || '');
+    modalCounter.textContent =
+      `${String(index + 1).padStart(2, '0')} / ${String(cells.length).padStart(2, '0')}`;
+    const visual = cell.querySelector<HTMLElement>('svg, img');
+    modalSheetContent.innerHTML = '';
+    if (visual) modalSheetContent.appendChild(visual.cloneNode(true));
+    _prevFocus = document.activeElement as HTMLElement;
+    modal.hidden = false;
+    lockScroll();
+    modal.querySelector<HTMLButtonElement>('[data-action="close-modal"]')!.focus();
+  }
+
+  function closeModal() {
+    if (modal.hidden) return;
+    modal.hidden = true;
+    currentIndex = null;
+    unlockScroll();
+    _prevFocus?.focus();
+    _prevFocus = null;
+  }
+
+  function prevModal() {
+    if (currentIndex === null) return;
+    const cells = visibleCells();
+    openModal((currentIndex - 1 + cells.length) % cells.length);
+  }
+
+  function nextModal() {
+    if (currentIndex === null) return;
+    const cells = visibleCells();
+    openModal((currentIndex + 1) % cells.length);
+  }
+
+  // ─── listeners ──────────────────────────────────────────────────
+  document.querySelector('[data-action="reset"]')!.addEventListener('click', e => {
+    e.preventDefault();
+    reset();
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.a-header [data-view]').forEach(btn => {
+    btn.addEventListener('click', () => setView(btn.dataset.view as any));
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
+    btn.addEventListener('click', () => setSeries(btn.dataset.series!));
+  });
+
+  allCells.forEach(cell => {
+    cell.addEventListener('click', () => {
+      const vis = visibleCells();
+      const idx = vis.indexOf(cell);
+      if (idx >= 0) openModal(idx);
+    });
+  });
+
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+  document.querySelector('[data-action="close-modal"]')!
+    .addEventListener('click', e => { e.stopPropagation(); closeModal(); });
+  document.querySelector('[data-action="prev-modal"]')!
+    .addEventListener('click', e => { e.stopPropagation(); prevModal(); });
+  document.querySelector('[data-action="next-modal"]')!
+    .addEventListener('click', e => { e.stopPropagation(); nextModal(); });
+
+  document.addEventListener('keydown', e => {
+    if (modal.hidden) return;
+    if (e.key === 'Escape')     closeModal();
+    if (e.key === 'ArrowLeft')  prevModal();
+    if (e.key === 'ArrowRight') nextModal();
+  });
+
+  modal.addEventListener('keydown', e => {
+    if (e.key !== 'Tab') return;
+    const focusable = Array.from(modal.querySelectorAll<HTMLElement>('button:not([disabled])'));
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+  modal.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  modal.addEventListener('touchend', e => {
+    if (modal.hidden) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 48) {
+      dx < 0 ? nextModal() : prevModal();
+    }
+  }, { passive: true });
+</script>

@@ -35,6 +35,17 @@ a { color: inherit; text-decoration: none; }
 hr { border: 0; }
 ul { list-style: none; padding: 0; margin: 0; }
 
+/* ─── A11y / SEO ─── */
+.a-vh {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ─── Celdas (grilla) ────────────────────────────────────────── */
 .mica-cell {
   display: block; width: 100%;
