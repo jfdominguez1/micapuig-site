@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jfdominguez1.github.io/micapuig-site/sitemap-index.xml
+Sitemap: https://micaelapuig.com/sitemap-index.xml

@@ -88,7 +88,7 @@ export const COPY: Record<Lang, LangCopy> = {
     poemContext: 'Sobre la serie',
     videoSoon: 'Video — disponible próximamente',
     modal: { close: 'Cerrar', prev: 'Anterior', next: 'Siguiente' },
-    contact: { city: 'São Paulo · Brasil', mail: 'estudio@micaelapuig.com', dossier: 'Descargar dossier (PDF)' },
+    contact: { city: 'São Paulo · Brasil', mail: 'mp@micaelapuig.com', dossier: 'Descargar dossier (PDF)' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Radicada en São Paulo desde 2020) es artista visual y profesora de arte con especialidad en grabado.',
@@ -122,7 +122,7 @@ export const COPY: Record<Lang, LangCopy> = {
     poemContext: 'About the series',
     videoSoon: 'Video — coming soon',
     modal: { close: 'Close', prev: 'Previous', next: 'Next' },
-    contact: { city: 'São Paulo · Brazil', mail: 'estudio@micaelapuig.com', dossier: 'Download dossier (PDF)' },
+    contact: { city: 'São Paulo · Brazil', mail: 'mp@micaelapuig.com', dossier: 'Download dossier (PDF)' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Based in São Paulo since 2020) is a visual artist and art teacher specialized in printmaking.',
@@ -156,7 +156,7 @@ export const COPY: Record<Lang, LangCopy> = {
     poemContext: 'Sobre a série',
     videoSoon: 'Vídeo — disponível em breve',
     modal: { close: 'Fechar', prev: 'Anterior', next: 'Seguinte' },
-    contact: { city: 'São Paulo · Brasil', mail: 'estudio@micaelapuig.com', dossier: 'Baixar dossiê (PDF)' },
+    contact: { city: 'São Paulo · Brasil', mail: 'mp@micaelapuig.com', dossier: 'Baixar dossiê (PDF)' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Radicada em São Paulo desde 2020) é artista visual e professora de arte com especialidade em gravura.',
