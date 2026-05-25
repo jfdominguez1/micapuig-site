@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import PhotoPlaceholder from '../components/PhotoPlaceholder.astro';
 import { WORKS, SERIES, COPY } from '../data/works';
 
 const groupsMap: Record<string, string> = COPY.groups;
@@ -23,21 +22,24 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
   </svg>
 
   <header class="a-header">
-    <button class="a-brand a-link" data-action="reset">Micaela Puig</button>
-    <span class="a-sep">·</span>
-    <button class="a-link is-active" data-view="works" data-i18n="tab.works">{COPY.tabs.works}</button>
-    <span class="a-sep">·</span>
-    <button class="a-link" data-view="bio" data-i18n="tab.bio">{COPY.tabs.bio}</button>
-    <span class="a-sep">·</span>
-    <button class="a-link" data-view="contact" data-i18n="tab.contact">{COPY.tabs.contact}</button>
+    <div class="a-header__main">
+      <button class="a-brand a-link" data-action="reset">Micaela Puig</button>
+      <span class="a-sep">·</span>
+      <button class="a-link is-active" data-view="works" data-i18n="tab.works">{COPY.tabs.works}</button>
+      <span class="a-sep">·</span>
+      <button class="a-link" data-view="bio" data-i18n="tab.bio">{COPY.tabs.bio}</button>
+      <span class="a-sep">·</span>
+      <button class="a-link" data-view="contact" data-i18n="tab.contact">{COPY.tabs.contact}</button>
 
-    <div class="a-langs">
-      <button class="a-lang is-active" data-lang="ES">ES</button>
-      <span class="a-lang-sep">·</span>
-      <button class="a-lang" data-lang="EN">EN</button>
-      <span class="a-lang-sep">·</span>
-      <button class="a-lang" data-lang="PT">PT</button>
+      <div class="a-langs">
+        <button class="a-lang is-active" data-lang="ES">ES</button>
+        <span class="a-lang-sep">·</span>
+        <button class="a-lang" data-lang="EN">EN</button>
+        <span class="a-lang-sep">·</span>
+        <button class="a-lang" data-lang="PT">PT</button>
+      </div>
     </div>
+    <p class="a-header__bio" data-i18n="bio.short">{COPY.bioShort}</p>
   </header>
 
   <main>
@@ -59,6 +61,17 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
         })}
       </div>
 
+      <aside class="a-poem-callout" id="poem-callout" hidden>
+        <div class="a-poem-callout__inner">
+          <h2 class="a-poem-callout__label" data-i18n="poem.context">Sobre la serie</h2>
+          <p class="a-poem-callout__title">{COPY.poem.title}</p>
+          <div class="a-poem-callout__lines">
+            {COPY.poem.lines.map(line => <p>{line}</p>)}
+          </div>
+          <p class="a-poem-callout__sig">— {COPY.poem.signature}</p>
+        </div>
+      </aside>
+
       <div class="a-grid" id="grid">
         {WORKS.map((w, i) => (
           <button
@@ -73,10 +86,7 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
             aria-label={`${w.title}, ${w.year}`}
           >
             <div class="mica-cell__sheet" data-aspect={w.aspect}>
-              {w.image
-                ? <img src={`${import.meta.env.BASE_URL}/images/${w.image}`} alt={w.title} loading="lazy" />
-                : <PhotoPlaceholder work={w} />
-              }
+              <img src={`${import.meta.env.BASE_URL}/images/${w.image}`} alt={w.title} loading="lazy" />
               <div class="mica-cell__tint"></div>
             </div>
           </button>
@@ -89,6 +99,15 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       <div id="statement-body">
         {COPY.statement.map(p => <p class="a-bio__p">{p}</p>)}
       </div>
+
+      <figure class="a-poem">
+        <h2 class="a-poem__title">{COPY.poem.title}</h2>
+        <div class="a-poem__body">
+          {COPY.poem.lines.map(line => <p>{line}</p>)}
+        </div>
+        <figcaption class="a-poem__sig">— {COPY.poem.signature}</figcaption>
+      </figure>
+
       <hr class="a-rule" />
       <h2 class="a-bio__label" data-i18n="bio.cv">{COPY.cvTitle}</h2>
       {cvEntries.map(([key, entries]) => (
@@ -97,12 +116,16 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
           <ul>
             {entries.map((row) => (
               <li class="a-cv__row">
-                <span class="a-cv__year">{row[0]}</span>
+                {row[0] && <span class="a-cv__year">{row[0]}</span>}
                 <span class="a-cv__title">{row[1]}</span>
-                <span class="a-cv__sep">·</span>
-                <span class="a-cv__inst">{row[2]}</span>
-                <span class="a-cv__sep">·</span>
-                <span class="a-cv__city">{row[3]}</span>
+                {row[2] && row[2] !== '—' && <>
+                  <span class="a-cv__sep">·</span>
+                  <span class="a-cv__inst">{row[2]}</span>
+                </>}
+                {row[3] && <>
+                  <span class="a-cv__sep">·</span>
+                  <span class="a-cv__city">{row[3]}</span>
+                </>}
               </li>
             ))}
           </ul>
@@ -168,51 +191,63 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.contact': 'Contacto',
       'filter.all': 'Todas',
       'series.infancia': 'Infancia', 'series.naturaleza': 'Naturaleza', 'series.aranka': 'Aranka',
+      'bio.short': 'Argentina, 1976. Radicada en São Paulo desde 2020. Artista visual y profesora de arte con especialidad en grabado.',
       'bio.statement': 'Statement', 'bio.cv': 'Currículum',
       'cv.indiv': 'Exposiciones individuales', 'cv.colec': 'Exposiciones colectivas',
       'cv.resid': 'Residencias', 'cv.premios': 'Premios',
-      'contact.city': 'Buenos Aires · Argentina',
+      'cv.colab': 'Colaboraciones', 'cv.form': 'Formación', 'cv.comp': 'Complementarios',
+      'poem.context': 'Sobre la serie',
+      'contact.city': 'São Paulo · Brasil',
       'contact.dossier': 'Descargar dossier (PDF)',
       'modal.close': 'Cerrar', 'modal.prev': 'Anterior', 'modal.next': 'Siguiente',
-      'footer': '© 2026 Micaela Puig · Buenos Aires',
+      'footer': '© 2026 Micaela Puig · São Paulo',
       statement: [
-        'Mi trabajo se sostiene en un registro analógico paciente. La cámara entra en una habitación, en un patio, en la sombra de un árbol, y permanece ahí el tiempo que haga falta. No estoy buscando una imagen: estoy esperando que un objeto, una superficie o un cuerpo deje su rastro propio sobre la película.',
-        'Las series Infancia, Naturaleza y Aranka funcionan como tres modos de la misma escucha. Infancia trabaja con casas, objetos y luces que ya estaban antes que yo. Naturaleza se ocupa de lo que crece, se seca y se mueve sin pedir permiso. Aranka es un cuerpo y una presencia que sostienen el ejercicio del retrato a lo largo del tiempo.',
-        'Reviso cada copia como un pliego suelto. La materialidad del papel, el virado, la mancha que aparece sin haber sido convocada, todo eso forma parte del trabajo. Una fotografía no termina cuando se dispara el obturador; termina, si termina, cuando alguien la sostiene en la mano.',
+        'Micaela Puig (Argentina, 1976. Radicada en São Paulo desde 2020) es artista visual y profesora de arte con especialidad en grabado.',
+        'A través de un análisis de las relaciones humanas y su relación con el territorio, su producción artística actúa como un dispositivo de memoria: rescata las marcas y cicatrices del pasado para traerlas al presente, exponiéndolas como un espacio activo de pensamiento, diálogo y reparación.',
+        'Artista multifacética que utiliza técnicas como el dibujo, el grabado, la pintura, los objetos, el collage y el video, prioriza el concepto por sobre la técnica y busca en el lenguaje artístico los recursos que dialoguen mejor con cada obra.',
+        'En su obra puede observarse cómo decodifica el comportamiento humano con su entorno y con sus pares, trayendo el pasado al presente como recurso de comprensión, haciendo convivir las marcas que el pasado deja, exponiéndolas para reflexionarlas, denunciarlas o reescribirlas.',
       ],
     },
     en: {
       'tab.works': 'Works', 'tab.bio': 'Bio', 'tab.contact': 'Contact',
       'filter.all': 'All',
       'series.infancia': 'Childhood', 'series.naturaleza': 'Nature', 'series.aranka': 'Aranka',
+      'bio.short': 'Argentina, 1976. Based in São Paulo since 2020. Visual artist and art teacher, specialized in printmaking.',
       'bio.statement': 'Statement', 'bio.cv': 'CV',
       'cv.indiv': 'Solo exhibitions', 'cv.colec': 'Group exhibitions',
       'cv.resid': 'Residencies', 'cv.premios': 'Awards',
-      'contact.city': 'Buenos Aires · Argentina',
+      'cv.colab': 'Collaborations', 'cv.form': 'Education', 'cv.comp': 'Complementary studies',
+      'poem.context': 'About the series',
+      'contact.city': 'São Paulo · Brazil',
       'contact.dossier': 'Download dossier (PDF)',
       'modal.close': 'Close', 'modal.prev': 'Previous', 'modal.next': 'Next',
-      'footer': '© 2026 Micaela Puig · Buenos Aires',
+      'footer': '© 2026 Micaela Puig · São Paulo',
       statement: [
-        'My work is sustained by patient analog recording. The camera enters a room, a courtyard, the shadow of a tree, and stays as long as needed. I am not searching for an image: I am waiting for an object, a surface, or a body to leave its own trace on the film.',
-        'The series Childhood, Nature, and Aranka function as three modes of the same listening. Childhood works with houses, objects, and lights that were already there before me. Nature deals with what grows, dries, and moves without asking permission. Aranka is a body and a presence that sustain the exercise of portraiture over time.',
-        'I review each print as a loose sheet. The materiality of the paper, the toning, the stain that appears without having been summoned — all of this is part of the work. A photograph does not end when the shutter fires; it ends, if it ends, when someone holds it in their hands.',
+        'Micaela Puig (Argentina, 1976. Based in São Paulo since 2020) is a visual artist and art teacher specialized in printmaking.',
+        'Through an analysis of human relationships and their connection to the territory, her artistic production operates as a memory device: it rescues the marks and scars of the past and brings them into the present, exposing them as an active space for thought, dialogue and repair.',
+        'A multifaceted artist who works with drawing, printmaking, painting, objects, collage and video, she prioritizes concept over technique and seeks in artistic language the resources that best speak to each work.',
+        'In her work one can see how she decodes human behavior in relation to its surroundings and peers, bringing the past into the present as a tool for understanding, allowing the marks left by the past to coexist — exposing them to reflect on, denounce or rewrite them.',
       ],
     },
     pt: {
       'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.contact': 'Contato',
       'filter.all': 'Todas',
       'series.infancia': 'Infância', 'series.naturaleza': 'Natureza', 'series.aranka': 'Aranka',
+      'bio.short': 'Argentina, 1976. Radicada em São Paulo desde 2020. Artista visual e professora de arte com especialidade em gravura.',
       'bio.statement': 'Statement', 'bio.cv': 'Currículo',
       'cv.indiv': 'Exposições individuais', 'cv.colec': 'Exposições coletivas',
       'cv.resid': 'Residências', 'cv.premios': 'Prêmios',
-      'contact.city': 'Buenos Aires · Argentina',
+      'cv.colab': 'Colaborações', 'cv.form': 'Formação', 'cv.comp': 'Complementares',
+      'poem.context': 'Sobre a série',
+      'contact.city': 'São Paulo · Brasil',
       'contact.dossier': 'Baixar dossiê (PDF)',
       'modal.close': 'Fechar', 'modal.prev': 'Anterior', 'modal.next': 'Seguinte',
-      'footer': '© 2026 Micaela Puig · Buenos Aires',
+      'footer': '© 2026 Micaela Puig · São Paulo',
       statement: [
-        'Meu trabalho sustenta-se em um registro analógico paciente. A câmera entra em um quarto, em um pátio, na sombra de uma árvore, e permanece ali o tempo que for necessário. Não estou buscando uma imagem: estou esperando que um objeto, uma superfície ou um corpo deixe seu próprio rastro no filme.',
-        'As séries Infância, Natureza e Aranka funcionam como três modos da mesma escuta. Infância trabalha com casas, objetos e luzes que já estavam antes de mim. Natureza ocupa-se do que cresce, seca e se move sem pedir permissão. Aranka é um corpo e uma presença que sustentam o exercício do retrato ao longo do tempo.',
-        'Revejo cada cópia como uma folha solta. A materialidade do papel, o viragem, a mancha que aparece sem ter sido convocada, tudo isso faz parte do trabalho. Uma fotografia não termina quando o obturador dispara; termina, se termina, quando alguém a segura nas mãos.',
+        'Micaela Puig (Argentina, 1976. Radicada em São Paulo desde 2020) é artista visual e professora de arte com especialidade em gravura.',
+        'A partir de uma análise das relações humanas e sua relação com o território, sua produção artística atua como um dispositivo de memória: resgata as marcas e cicatrizes do passado para trazê-las ao presente, expondo-as como um espaço ativo de pensamento, diálogo e reparação.',
+        'Artista multifacetada que utiliza técnicas como o desenho, a gravura, a pintura, os objetos, a colagem e o vídeo, prioriza o conceito sobre a técnica e busca na linguagem artística os recursos que dialoguem melhor com cada obra.',
+        'Em sua obra pode-se observar como decodifica o comportamento humano com seu entorno e com seus pares, trazendo o passado ao presente como recurso de compreensão, fazendo conviver as marcas que o passado deixa, expondo-as para refletir, denunciar ou reescrevê-las.',
       ],
     },
   };
@@ -292,6 +327,8 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
       btn.classList.toggle('is-active', btn.dataset.series === seriesId);
     });
+    const callout = document.getElementById('poem-callout');
+    if (callout) callout.hidden = seriesId !== 'aranka';
     grid.style.opacity = '0';
     setTimeout(() => {
       allCells.forEach(cell => {
