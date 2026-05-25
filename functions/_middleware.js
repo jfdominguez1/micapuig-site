@@ -13,7 +13,7 @@ export async function onRequest({ request, next }) {
 
   if (url.pathname !== '/') return next();
 
-  const country = request.cf?.country ?? '';
+  const country = request.headers.get('CF-IPCountry') ?? request.cf?.country ?? '';
 
   if (PT.has(country)) {
     return Response.redirect(new URL('/pt/', request.url).toString(), 302);
