@@ -1,6 +1,6 @@
 ---
-import { WORKS, SERIES, EXHIBITIONS, VIDEOS, CV_DATA } from '../data/works';
-import { COPY, POEM, langPath, type Lang } from '../data/copy';
+import { WORKS, SERIES, CV_DATA } from '../data/works';
+import { COPY, POEM, ALE_TEXT, langPath, type Lang } from '../data/copy';
 import { IMG_DIMS } from '../data/image-dimensions';
 
 interface Props {
@@ -19,7 +19,6 @@ const cvEntries: [string, string[][]][] = cvOrder
 
 const dim = (path: string): { w?: number; h?: number } => IMG_DIMS[path] ?? {};
 
-// Año más reciente entre las obras + año actual para alt text
 const seriesLabel: Record<string, string> = {
   aranka: t.series.aranka,
   infancia: t.series.infancia,
@@ -58,9 +57,7 @@ const seriesLabel: Record<string, string> = {
     <span class="a-sep">·</span>
     <button class="a-link" data-view="bio">{t.tabs.bio}</button>
     <span class="a-sep">·</span>
-    <button class="a-link" data-view="exhibitions">{t.tabs.exhibitions}</button>
-    <span class="a-sep">·</span>
-    <button class="a-link" data-view="videos">{t.tabs.videos}</button>
+    <button class="a-link" data-view="texts">{t.tabs.texts}</button>
     <span class="a-sep">·</span>
     <button class="a-link" data-view="contact">{t.tabs.contact}</button>
   </nav>
@@ -130,14 +127,6 @@ const seriesLabel: Record<string, string> = {
       {t.statement.map(p => <p class="a-bio__p">{p}</p>)}
     </div>
 
-    <figure class="a-poem">
-      <h2 class="a-poem__title">{POEM.title}</h2>
-      <div class="a-poem__body">
-        {POEM.lines.map(line => <p>{line}</p>)}
-      </div>
-      <figcaption class="a-poem__sig">— {POEM.signature}</figcaption>
-    </figure>
-
     <hr class="a-rule" />
     <h2 class="a-bio__label">{t.cvTitle}</h2>
     {cvEntries.map(([key, entries]) => (
@@ -163,65 +152,23 @@ const seriesLabel: Record<string, string> = {
     ))}
   </section>
 
-  <section class="a-exhibitions" data-view-section="exhibitions">
-    <h2 class="a-bio__label">{t.exhibitionsTitle}</h2>
-    <div class="a-exh__grid">
-      {EXHIBITIONS.map(ex => (
-        <article class="a-exh-card">
-          <div class="a-exh-card__media">
-            {ex.images.map((img, idx) => {
-              const path = `exhibitions/${img}`;
-              const d = dim(path);
-              const alt = `${ex.title}${ex.year ? `, ${ex.year}` : ''} — Micaela Puig`;
-              return (
-                <div class={`a-exh-card__img ${idx === 0 ? 'is-primary' : ''}`}>
-                  <img src={`${baseUrl}${path}`} alt={alt} loading="lazy" width={d.w} height={d.h} />
-                </div>
-              );
-            })}
-          </div>
-          <div class="a-exh-card__body">
-            {ex.year && <span class="a-exh-card__year">{ex.year}</span>}
-            <h3 class="a-exh-card__title">
-              {ex.url
-                ? <a href={ex.url} target="_blank" rel="noopener noreferrer">{ex.title}</a>
-                : ex.title
-              }
-            </h3>
-            {ex.venue && <p class="a-exh-card__venue">{ex.venue}</p>}
-            {ex.city  && <p class="a-exh-card__city">{ex.city}</p>}
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
+  <section class="a-texts" data-view-section="texts">
+    <figure class="a-poem">
+      <h2 class="a-poem__title">{POEM.title}</h2>
+      <div class="a-poem__body">
+        {POEM.lines.map(line => <p>{line}</p>)}
+      </div>
+      <figcaption class="a-poem__sig">— {POEM.signature}</figcaption>
+    </figure>
 
-  <section class="a-videos" data-view-section="videos">
-    <h2 class="a-bio__label">{t.videosTitle}</h2>
-    <div class="a-videos__grid">
-      {VIDEOS.map(v => {
-        const path = v.poster ? `videos/${v.poster}` : '';
-        const d = path ? dim(path) : {};
-        return (
-          <article class="a-video-card">
-            <div class="a-video-card__poster">
-              {v.poster
-                ? <img src={`${baseUrl}${path}`} alt={`${v.title} — video, Micaela Puig`} loading="lazy" width={d.w} height={d.h} />
-                : <div class="a-video-card__poster--empty"></div>
-              }
-              <div class="a-video-card__play" aria-hidden="true">
-                <svg width="48" height="48" viewBox="0 0 48 48">
-                  <circle cx="24" cy="24" r="23" fill="none" stroke="currentColor" stroke-width="1" opacity="0.65" />
-                  <path d="M19 16 L34 24 L19 32 Z" fill="currentColor" opacity="0.85" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="a-video-card__title">{v.title}</h3>
-            <p class="a-video-card__note">{t.videoSoon}</p>
-          </article>
-        );
-      })}
-    </div>
+    <hr class="a-rule" />
+
+    <h2 class="a-bio__label">{ALE_TEXT.title}</h2>
+    <p class="a-texts__source">{ALE_TEXT.subtitle}</p>
+    {ALE_TEXT.paragraphs.map((p, i) => (
+      <p class={`a-bio__p${i === 2 ? ' a-texts__quote' : ''}`}>{p}</p>
+    ))}
+    <p class="a-poem__sig">{ALE_TEXT.signature}</p>
   </section>
 
   <section class="a-contact" data-view-section="contact">
@@ -229,9 +176,8 @@ const seriesLabel: Record<string, string> = {
       <a href={`mailto:${t.contact.mail}`}>{t.contact.mail}</a>
     </p>
     <p class="a-contact__city">{t.contact.city}</p>
-    <p class="a-contact__row"><a href="#">{t.contact.dossier}</a></p>
     <p class="a-contact__row">
-      <a href="https://www.instagram.com/micapuig/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://www.instagram.com/micapuig/" target="_blank" rel="noopener noreferrer">@micapuig</a>
     </p>
   </section>
 </main>
@@ -337,7 +283,7 @@ const seriesLabel: Record<string, string> = {
     return allCells.filter(c => c.dataset.hidden !== 'true');
   }
 
-  function setView(view: 'works' | 'bio' | 'exhibitions' | 'videos' | 'contact') {
+  function setView(view: 'works' | 'bio' | 'texts' | 'contact') {
     document.querySelectorAll<HTMLElement>('[data-view-section]').forEach(el => {
       el.classList.toggle('is-active', el.dataset.viewSection === view);
       el.classList.toggle('a-fade', el.dataset.viewSection === view);

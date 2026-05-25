@@ -18,22 +18,19 @@ export interface LangCopy {
   htmlLang: string;
   metaTitle: string;
   metaDescription: string;
-  tabs: { works: string; bio: string; exhibitions: string; videos: string; contact: string };
+  tabs: { works: string; bio: string; texts: string; contact: string };
   bioShort: string;
   bioTitle: string;
   cvTitle: string;
-  exhibitionsTitle: string;
-  videosTitle: string;
+  textsTitle: string;
   allLabel: string;
   groups: { indiv: string; colec: string; resid: string; premios: string; colab: string; form: string; comp: string };
   series: { aranka: string; infancia: string; naturaleza: string };
   poemContext: string;
-  videoSoon: string;
   modal: { close: string; prev: string; next: string };
-  contact: { city: string; mail: string; dossier: string };
+  contact: { city: string; mail: string };
   footer: string;
   statement: string[];
-  // Poema "Te veo" — mantengo solo en ES (voz propia de la artista).
 }
 
 const POEM_TITLE = 'Te veo';
@@ -63,17 +60,27 @@ export const POEM = {
   signature: 'Micaela Puig',
 };
 
+export const ALE_TEXT = {
+  title: 'Aurélia',
+  subtitle: 'Apresentação de Micaela Puig artista residente 2022 · Ateliê Alê',
+  paragraphs: [
+    'O projeto de residência artística, do Espaço de Arte Ateliê Alê, tem como objetivo proporcionar aos artistas a oportunidade de expandir sua pesquisa, assumir riscos, compartilhar e concretizar novas ideias.',
+    'Durante o período de residência, Micaela trabalhou em seu projeto intitulado Aurélia. Uma pesquisa que transpassa a memória afetiva e se expande pelas vidas de todas nós, mulheres.',
+    '"O projeto em que estou trabalhando surge de um curso de foto-livro onde apresento uma narrativa fotográfica da história da minha avó materna, que deixou poucos registros de sua vida. Nesse processo novas perguntas começaram a surgir e descubro semelhanças no passado das mulheres da minha família. Padrões que se repetem por gerações que me surpreendem até hoje. Na tentativa de reconstruir o passado, procuro fotografias, documentos, histórias de pessoas que tiveram contato com o círculo familiar para preencher os espaços vazios. Quero tentar entender e me colocar no lugar das mulheres do meu passado que percorreram longos e difíceis caminhos para que eu esteja aqui. Mulheres que viveram em diferentes momentos históricos e mesmo que cercadas por um contexto totalmente diferente, suas histórias de amor, família, resiliência, são repetidas por gerações. São feridas não cicatrizadas que precisam de um corte para que drenem e se recuperem. Quero projetar através do meu trabalho com o foto-livro \'Aurélia\' outras dimensões e técnicas que me levem a abrir novos caminhos. A residência me ofereceu a oportunidade de focar nesse projeto que eu comecei no ano passado. O ambiente, a troca com outros artistas e curadores me ajudaram a continuar explorando, questionando e me desafiando para enriquecer minha pesquisa artística."',
+  ],
+  signature: 'M. Micaela Puig',
+};
+
 export const COPY: Record<Lang, LangCopy> = {
   es: {
     htmlLang: 'es',
     metaTitle: 'Micaela Puig — Artista visual y grabadora · São Paulo',
     metaDescription: 'Portfolio de Micaela Puig: artista visual y profesora de arte con especialidad en grabado. Obra, muestras, statement y CV. São Paulo, Brasil.',
-    tabs: { works: 'Obra', bio: 'Bio', exhibitions: 'Muestras', videos: 'Videos', contact: 'Contacto' },
+    tabs: { works: 'Obra', bio: 'Bio', texts: 'Textos', contact: 'Contacto' },
     bioShort: 'Artista visual y profesora de arte con especialidad en grabado.',
     bioTitle: 'Statement',
     cvTitle: 'Currículum',
-    exhibitionsTitle: 'Muestras',
-    videosTitle: 'Videos',
+    textsTitle: 'Textos',
     allLabel: 'Todas',
     groups: {
       indiv: 'Exposiciones individuales',
@@ -86,15 +93,13 @@ export const COPY: Record<Lang, LangCopy> = {
     },
     series: { aranka: 'Aranka', infancia: 'Infancia', naturaleza: 'Naturaleza' },
     poemContext: 'Sobre la serie',
-    videoSoon: 'Video — disponible próximamente',
     modal: { close: 'Cerrar', prev: 'Anterior', next: 'Siguiente' },
-    contact: { city: 'São Paulo · Brasil', mail: 'mp@micaelapuig.com', dossier: 'Descargar dossier (PDF)' },
+    contact: { city: 'São Paulo · Brasil', mail: 'mp@micaelapuig.com' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
-      'Micaela Puig (Argentina, 1976. Radicada en São Paulo desde 2020) es artista visual y profesora de arte con especialidad en grabado.',
+      'Micaela Puig (Argentina, 1976. Radicada en São Paulo desde 2020) es artista visual y profesora de arte con especialidad en grabado, recibida en el Instituto Superior Santa Ana (ISSA), en Buenos Aires, Argentina.',
       'A través de un análisis de las relaciones humanas y su relación con el territorio, su producción artística actúa como un dispositivo de memoria: rescata las marcas y cicatrices del pasado para traerlas al presente, exponiéndolas como un espacio activo de pensamiento, diálogo y reparación.',
-      'Artista multifacética que utiliza técnicas como el dibujo, el grabado, la pintura, los objetos, el collage y el video, prioriza el concepto por sobre la técnica y busca en el lenguaje artístico los recursos que dialoguen mejor con cada obra.',
-      'En su obra puede observarse cómo decodifica el comportamiento humano con su entorno y con sus pares, trayendo el pasado al presente como recurso de comprensión, haciendo convivir las marcas que el pasado deja, exponiéndolas para reflexionarlas, denunciarlas o reescribirlas.',
+      'Artista contemporánea que trabaja en múltiples soportes como el dibujo, el grabado, la pintura, los objetos, el collage y el video, vencedora de varios premios en pintura y grabado en su país, participó en varias exposiciones colectivas en Argentina y Brasil.',
     ],
   },
 
@@ -102,12 +107,11 @@ export const COPY: Record<Lang, LangCopy> = {
     htmlLang: 'en',
     metaTitle: 'Micaela Puig — Visual artist & printmaker · São Paulo',
     metaDescription: 'Portfolio of Micaela Puig: visual artist and art teacher specialized in printmaking. Works, exhibitions, statement and CV. Based in São Paulo, Brazil.',
-    tabs: { works: 'Works', bio: 'Bio', exhibitions: 'Exhibitions', videos: 'Videos', contact: 'Contact' },
+    tabs: { works: 'Works', bio: 'Bio', texts: 'Texts', contact: 'Contact' },
     bioShort: 'Visual artist and art teacher, specialized in printmaking.',
     bioTitle: 'Statement',
     cvTitle: 'CV',
-    exhibitionsTitle: 'Exhibitions',
-    videosTitle: 'Videos',
+    textsTitle: 'Texts',
     allLabel: 'All',
     groups: {
       indiv: 'Solo exhibitions',
@@ -120,15 +124,13 @@ export const COPY: Record<Lang, LangCopy> = {
     },
     series: { aranka: 'Aranka', infancia: 'Childhood', naturaleza: 'Nature' },
     poemContext: 'About the series',
-    videoSoon: 'Video — coming soon',
     modal: { close: 'Close', prev: 'Previous', next: 'Next' },
-    contact: { city: 'São Paulo · Brazil', mail: 'mp@micaelapuig.com', dossier: 'Download dossier (PDF)' },
+    contact: { city: 'São Paulo · Brazil', mail: 'mp@micaelapuig.com' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
-      'Micaela Puig (Argentina, 1976. Based in São Paulo since 2020) is a visual artist and art teacher specialized in printmaking.',
+      'Micaela Puig (Argentina, 1976. Based in São Paulo since 2020) is a visual artist and art teacher specialized in printmaking, graduated from the Instituto Superior Santa Ana (ISSA), Buenos Aires, Argentina.',
       'Through an analysis of human relationships and their connection to the territory, her artistic production operates as a memory device: it rescues the marks and scars of the past and brings them into the present, exposing them as an active space for thought, dialogue and repair.',
-      'A multifaceted artist who works with drawing, printmaking, painting, objects, collage and video, she prioritizes concept over technique and seeks in artistic language the resources that best speak to each work.',
-      'In her work one can see how she decodes human behavior in relation to its surroundings and peers, bringing the past into the present as a tool for understanding, allowing the marks left by the past to coexist — exposing them to reflect on, denounce or rewrite them.',
+      'A contemporary artist working across drawing, printmaking, painting, objects, collage and video, she has won several awards in painting and printmaking in Argentina and has participated in collective exhibitions in Argentina and Brazil.',
     ],
   },
 
@@ -136,12 +138,11 @@ export const COPY: Record<Lang, LangCopy> = {
     htmlLang: 'pt-BR',
     metaTitle: 'Micaela Puig — Artista visual e gravadora · São Paulo',
     metaDescription: 'Portfólio de Micaela Puig: artista visual e professora de arte com especialidade em gravura. Obra, mostras, statement e currículo. São Paulo, Brasil.',
-    tabs: { works: 'Obra', bio: 'Bio', exhibitions: 'Mostras', videos: 'Vídeos', contact: 'Contato' },
+    tabs: { works: 'Obra', bio: 'Bio', texts: 'Textos', contact: 'Contato' },
     bioShort: 'Artista visual e professora de arte com especialidade em gravura.',
     bioTitle: 'Statement',
     cvTitle: 'Currículo',
-    exhibitionsTitle: 'Mostras',
-    videosTitle: 'Vídeos',
+    textsTitle: 'Textos',
     allLabel: 'Todas',
     groups: {
       indiv: 'Exposições individuais',
@@ -154,15 +155,13 @@ export const COPY: Record<Lang, LangCopy> = {
     },
     series: { aranka: 'Aranka', infancia: 'Infância', naturaleza: 'Natureza' },
     poemContext: 'Sobre a série',
-    videoSoon: 'Vídeo — disponível em breve',
     modal: { close: 'Fechar', prev: 'Anterior', next: 'Seguinte' },
-    contact: { city: 'São Paulo · Brasil', mail: 'mp@micaelapuig.com', dossier: 'Baixar dossiê (PDF)' },
+    contact: { city: 'São Paulo · Brasil', mail: 'mp@micaelapuig.com' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
-      'Micaela Puig (Argentina, 1976. Radicada em São Paulo desde 2020) é artista visual e professora de arte com especialidade em gravura.',
+      'Micaela Puig (Argentina, 1976. Radicada em São Paulo desde 2020) é artista visual e professora de arte com especialidade em gravura, formada pelo Instituto Superior Santa Ana (ISSA), em Buenos Aires, Argentina.',
       'A partir de uma análise das relações humanas e sua relação com o território, sua produção artística atua como um dispositivo de memória: resgata as marcas e cicatrizes do passado para trazê-las ao presente, expondo-as como um espaço ativo de pensamento, diálogo e reparação.',
-      'Artista multifacetada que utiliza técnicas como o desenho, a gravura, a pintura, os objetos, a colagem e o vídeo, prioriza o conceito sobre a técnica e busca na linguagem artística os recursos que dialoguem melhor com cada obra.',
-      'Em sua obra pode-se observar como decodifica o comportamento humano com seu entorno e com seus pares, trazendo o passado ao presente como recurso de compreensão, fazendo conviver as marcas que o passado deixa, expondo-as para refletir, denunciar ou reescrevê-las.',
+      'Artista contemporânea que trabalha em múltiplos suportes como o desenho, a gravura, a pintura, os objetos, a colagem e o vídeo, vencedora de vários prêmios em pintura e gravura em seu país, participou de diversas exposições coletivas na Argentina e no Brasil.',
     ],
   },
 };
