@@ -2,12 +2,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// NOTA: cuando migremos a micaelapuig.com, cambiar `site` y quitar `base`.
-//   site: 'https://micaelapuig.com',
-//   (sin `base`)
 export default defineConfig({
-  site: 'https://jfdominguez1.github.io',
-  base: '/micapuig-site',
+  site: 'https://micaelapuig.com',
   trailingSlash: 'ignore',
   integrations: [
     sitemap({
