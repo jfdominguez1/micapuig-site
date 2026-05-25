@@ -38,6 +38,8 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       <span class="a-sep">·</span>
       <button class="a-link" data-view="bio" data-i18n="tab.bio">{COPY.tabs.bio}</button>
       <span class="a-sep">·</span>
+      <button class="a-link" data-view="exhibitions" data-i18n="tab.exhibitions">{COPY.exhibitionsTitle}</button>
+      <span class="a-sep">·</span>
       <button class="a-link" data-view="videos" data-i18n="tab.videos">{COPY.videosTitle}</button>
       <span class="a-sep">·</span>
       <button class="a-link" data-view="contact" data-i18n="tab.contact">{COPY.tabs.contact}</button>
@@ -135,6 +137,34 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       ))}
     </section>
 
+    <section class="a-exhibitions" data-view-section="exhibitions">
+      <h2 class="a-bio__label" data-i18n="exhibitions.label">{COPY.exhibitionsTitle}</h2>
+      <div class="a-exh__grid">
+        {COPY.exhibitions.map(ex => (
+          <article class="a-exh-card">
+            <div class="a-exh-card__media">
+              {ex.images.map((img, idx) => (
+                <div class={`a-exh-card__img ${idx === 0 ? 'is-primary' : ''}`}>
+                  <img src={`${import.meta.env.BASE_URL}/exhibitions/${img}`} alt={ex.title} loading="lazy" />
+                </div>
+              ))}
+            </div>
+            <div class="a-exh-card__body">
+              {ex.year && <span class="a-exh-card__year">{ex.year}</span>}
+              <h3 class="a-exh-card__title">
+                {(ex as any).url
+                  ? <a href={(ex as any).url} target="_blank" rel="noopener noreferrer">{ex.title}</a>
+                  : ex.title
+                }
+              </h3>
+              {ex.venue && <p class="a-exh-card__venue">{ex.venue}</p>}
+              {ex.city  && <p class="a-exh-card__city">{ex.city}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
     <section class="a-videos" data-view-section="videos">
       <h2 class="a-bio__label" data-i18n="videos.label">{COPY.videosTitle}</h2>
       <div class="a-videos__grid">
@@ -167,8 +197,6 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       <p class="a-contact__row"><a href="#" data-i18n="contact.dossier">{COPY.contact.dossier}</a></p>
       <p class="a-contact__row">
         <a href="https://www.instagram.com/micapuig/" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <span style="color:var(--ink-3);padding:0 0.5em">·</span>
-        <a href="#">Are.na</a>
       </p>
     </section>
   </main>
@@ -195,10 +223,10 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       </svg>
     </button>
     <div class="mica-modal__stage" id="modal-stage">
-      <div class="mica-modal__sheet" id="modal-sheet" data-aspect="vertical">
+      <div class="mica-modal__sheet" id="modal-sheet">
         <div id="modal-sheet-content"></div>
       </div>
-      <div class="mica-modal__caption" id="modal-caption" data-aspect="vertical">
+      <div class="mica-modal__caption" id="modal-caption">
         <h2 class="mica-cap__title" id="modal-title"></h2>
         <p class="mica-cap__tech" id="modal-tech"></p>
         <p class="mica-cap__meta" id="modal-meta"></p>
@@ -214,7 +242,8 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
 
   const DICT: Record<string, Record<string, string | string[]>> = {
     es: {
-      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.videos': 'Videos', 'tab.contact': 'Contacto',
+      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.exhibitions': 'Muestras', 'tab.videos': 'Videos', 'tab.contact': 'Contacto',
+      'exhibitions.label': 'Muestras',
       'filter.all': 'Todas',
       'series.infancia': 'Infancia', 'series.naturaleza': 'Naturaleza', 'series.aranka': 'Aranka',
       'bio.short': 'Artista visual y profesora de arte con especialidad en grabado.',
@@ -236,7 +265,8 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       ],
     },
     en: {
-      'tab.works': 'Works', 'tab.bio': 'Bio', 'tab.videos': 'Videos', 'tab.contact': 'Contact',
+      'tab.works': 'Works', 'tab.bio': 'Bio', 'tab.exhibitions': 'Exhibitions', 'tab.videos': 'Videos', 'tab.contact': 'Contact',
+      'exhibitions.label': 'Exhibitions',
       'filter.all': 'All',
       'series.infancia': 'Childhood', 'series.naturaleza': 'Nature', 'series.aranka': 'Aranka',
       'bio.short': 'Visual artist and art teacher, specialized in printmaking.',
@@ -258,7 +288,8 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
       ],
     },
     pt: {
-      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.videos': 'Vídeos', 'tab.contact': 'Contato',
+      'tab.works': 'Obra', 'tab.bio': 'Bio', 'tab.exhibitions': 'Mostras', 'tab.videos': 'Vídeos', 'tab.contact': 'Contato',
+      'exhibitions.label': 'Mostras',
       'filter.all': 'Todas',
       'series.infancia': 'Infância', 'series.naturaleza': 'Natureza', 'series.aranka': 'Aranka',
       'bio.short': 'Artista visual e professora de arte com especialidade em gravura.',
@@ -341,7 +372,7 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     return allCells.filter(c => c.dataset.hidden !== 'true');
   }
 
-  function setView(view: 'works' | 'bio' | 'videos' | 'contact') {
+  function setView(view: 'works' | 'bio' | 'exhibitions' | 'videos' | 'contact') {
     document.querySelectorAll<HTMLElement>('[data-view-section]').forEach(el => {
       el.classList.toggle('is-active', el.dataset.viewSection === view);
       el.classList.toggle('a-fade', el.dataset.viewSection === view);
@@ -395,9 +426,6 @@ const cvEntries: [string, string[][]][] = Object.entries(COPY.cv);
     if (index < 0 || index >= cells.length) return;
     currentIndex = index;
     const cell = cells[index];
-    const aspect = cell.dataset.aspect!;
-    modalSheet.setAttribute('data-aspect', aspect);
-    modalCaption.setAttribute('data-aspect', aspect);
     const seriesKey = `series.${cell.dataset.series!}`;
     modalSerie.textContent = (DICT[currentLang.toLowerCase()][seriesKey] as string) || '';
     modalTitle.textContent = cell.dataset.title!.toUpperCase();
