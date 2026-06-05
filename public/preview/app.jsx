@@ -20,7 +20,6 @@ const COPY = {
       premios:  "Premios",
     },
     contact: {
-      city:     "Buenos Aires · Argentina",
       mail:     "estudio@micaelapuig.com",
       dossier:  "Descargar dossier (PDF)",
     },
@@ -28,7 +27,6 @@ const COPY = {
     statement: [
       "Mi trabajo se sostiene en un registro analógico paciente. La cámara entra en una habitación, en un patio, en la sombra de un árbol, y permanece ahí el tiempo que haga falta. No estoy buscando una imagen: estoy esperando que un objeto, una superficie o un cuerpo deje su rastro propio sobre la película.",
       "Las series Infancia, Naturaleza y Aranka funcionan como tres modos de la misma escucha. Infancia trabaja con casas, objetos y luces que ya estaban antes que yo. Naturaleza se ocupa de lo que crece, se seca y se mueve sin pedir permiso. Aranka es un cuerpo y una presencia que sostienen el ejercicio del retrato a lo largo del tiempo.",
-      "Reviso cada copia como un pliego suelto. La materialidad del papel, el virado, la mancha que aparece sin haber sido convocada, todo eso forma parte del trabajo. Una fotografía no termina cuando se dispara el obturador; termina, si termina, cuando alguien la sostiene en la mano.",
     ],
     cv: {
       indiv: [
@@ -271,23 +269,49 @@ function BioSection({ t }) {
 
 // ─── Contacto ─────────────────────────────────────────────────────────────
 function ContactSection({ t }) {
+  const linkStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '1rem',
+    fontSize: '1.1rem',
+    textDecoration: 'none',
+    color: 'var(--text-color, #000)'
+  };
+
+  const iconStyle = {
+    marginRight: '10px',
+    color: '#555',
+    width: '24px',
+    height: '24px',
+  };
+
   return (
     <section className="mica-section" id="contact" data-screen-label="03 Contacto">
       <div className="mica-contact">
-        <p className="mica-contact__mail">{t.contact.mail}</p>
-        <p className="mica-contact__city">{t.contact.city}</p>
-        <p className="mica-contact__dossier">
+
+        <a href={`mailto:${t.contact.mail}`} style={linkStyle}>
+          <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>{t.contact.mail}</span>
+        </a>
+
+        <a href="#" onClick={e => e.preventDefault()} style={linkStyle}>
+            <svg style={iconStyle} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span>Instagram</span>
+        </a>
+
+        <p className="mica-contact__dossier" style={{marginTop: '2rem'}}>
           <a href="#" onClick={e => e.preventDefault()}>{t.contact.dossier}</a>
         </p>
-        <p className="mica-contact__links">
-          <a href="#" onClick={e => e.preventDefault()}>Instagram</a>
-          <span>·</span>
-          <a href="#" onClick={e => e.preventDefault()}>Are.na</a>
-        </p>
+
       </div>
     </section>
   );
 }
+
 
 // ─── App raíz ─────────────────────────────────────────────────────────────
 function App() {
