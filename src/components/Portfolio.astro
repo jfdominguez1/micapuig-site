@@ -1,5 +1,5 @@
 ---
-import { WORKS, SERIES, CV_DATA } from '../data/works';
+import { WORKS, CV_DATA } from '../data/works';
 import { COPY, POEM, ALE_TEXT, langPath, type Lang } from '../data/copy';
 import { IMG_DIMS } from '../data/image-dimensions';
 
@@ -85,7 +85,6 @@ const seriesLabel: Record<string, string> = {
         return (
           <button
             class="mica-cell a-cell"
-            data-index={i}
             data-series={w.series}
             data-title={w.title}
             data-technique={w.technique}
@@ -105,7 +104,7 @@ const seriesLabel: Record<string, string> = {
   </section>
 
   <section class="a-bio" data-view-section="bio">
-    <h2 class="a-bio__label">{t.bioTitle}</h2>
+    {t.bioTitle && <h2 class="a-bio__label">{t.bioTitle}</h2>}
     <div>
       {t.statement.map(p => <p class="a-bio__p">{p}</p>)}
     </div>
@@ -156,11 +155,11 @@ const seriesLabel: Record<string, string> = {
 
   <section class="a-contact" data-view-section="contact">
     <p class="a-contact__row">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
       <a href={`mailto:${t.contact.mail}`}>{t.contact.mail}</a>
     </p>
     <p class="a-contact__row">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
       <a href="https://www.instagram.com/micapuig/" target="_blank" rel="noopener noreferrer">@micapuig</a>
     </p>
   </section>
@@ -227,11 +226,6 @@ const seriesLabel: Record<string, string> = {
     font-size: 20px;
     line-height: 1;
     margin-left: 12px;
-  }
-
-  .a-contact__row svg {
-    width: 22px;
-    height: 22px;
   }
 </style>
 

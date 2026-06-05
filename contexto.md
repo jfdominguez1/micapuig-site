@@ -166,3 +166,37 @@ Porteado desde alt-a.jsx + shared-core.jsx + placeholders.jsx + works-data.js �
 - `docs/seo-plan.md` — plan SEO completo Capa 1/2/3 + pasos migración dominio
 - `docs/estado-2026-05-24.md` — cierre de sesión (capa Mica + capa técnica)
 - Copias en `~/IA_share/WEB/` (Drive de Mica): `Avance sitio web - 2026-05-24.md` + `Plan SEO - 2026-05-24.md`
+
+---
+
+## Estado al 2026-06-05 — Mica edita en paralelo desde Firebase Studio
+
+Mica empezó a editar el sitio por su cuenta desde **Firebase Studio (Project IDX)** — commiteado `.idx/dev.nix`. Pushea directo a `main`. El 2026-06-05 metió 13 commits (bio reescrita ES/EN/PT, marca en minúscula "micaela puig", contacto con íconos + foto de fondo, nav reubicado al hero, **eliminó el filtro de series** de la vista Obra). **Implicancia de trabajo**: antes de tocar el repo, SIEMPRE `git fetch` + revisar commits nuevos de Mica para no pisar su laburo ni sorprenderse con cambios. Su contenido es bueno; lo que mete Firebase Studio a veces necesita limpieza (ver abajo).
+
+### Auditoría 2026-06-05 de los cambios de Mica
+**Resueltos y deployados (commit `bd4cde7`)**:
+- 🔴 `(17de5e9)` hardcodeado y visible en el footer en prod (cruft de Firebase Studio, "Añade número de versión") → removido.
+- 🔴 `public/images/fondo contacto.jpg` 4032px/4.3MB → 2000px/381KB (−91%). El nombre conserva el espacio (la ruta CSS ya estaba fixeada); renombrar a `fondo-contacto.jpg` queda pendiente, requiere confirmación.
+
+### 🟡 PENDIENTE #3 — Modal de obra muestra el ID crudo de la serie (BUG documentado, sin arreglar)
+**Causa raíz**: al eliminar el filtro de series (`.a-works__sub`) del markup de `Portfolio.astro`, quedó huérfana la función JS `seriesLabel()` (`Portfolio.astro` ~línea 294) que leía el label **localizado** desde el botón del filtro:
+```js
+function seriesLabel(seriesId) {
+  const btn = document.querySelector(`.a-works__sub [data-series="${seriesId}"]`); // ← ese nodo ya no existe
+  if (!btn) return seriesId;        // ← cae siempre acá → devuelve el id crudo
+  ...
+}
+```
+La usa `openModal()` (~línea 359): `modalSerie.textContent = seriesLabel(cell.dataset.series!)`. **Efecto visible**: al abrir cualquier obra, el modal muestra el id pelado en minúscula ("aranka", "infancia", "naturaleza") en vez del label traducido — peor en EN ("infancia" en vez de "Childhood") y PT ("naturaleza" en vez de "Natureza").
+
+**Fix recomendado (mínimo y robusto)**: no depender del DOM del filtro. En la celda ya hay `data-series={w.series}`; agregar también el label localizado en el template Astro (el objeto `seriesLabel` del frontmatter, línea 22, ya tiene los labels por idioma):
+```astro
+<button ... data-series={w.series} data-series-label={seriesLabel[w.series]}>
+```
+y en el JS reemplazar la función por una lectura directa:
+```js
+modalSerie.textContent = cell.dataset.seriesLabel ?? cell.dataset.series ?? '';
+```
+Borrar entonces la función `seriesLabel()` JS y el dead code de `setSeries()`/listeners `.a-works__sub` (ver #5 auditoría).
+
+**Efecto colateral relacionado (#4)**: el callout del poema "Te veo" (`#poem-callout`) dependía de filtrar por Aranka (`callout.hidden = seriesId !== 'aranka'`); sin filtro nunca se muestra. Decidir si se reubica o se da por ok (el poema sigue en la sección Textos).

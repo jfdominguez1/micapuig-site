@@ -54,11 +54,6 @@ export const WORKS: Work[] = [
   { id: 26, image: 'naturaleza-hoja.jpg',           series: 'naturaleza', title: 'Hoja',                    year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
 ];
 
-export const ACCENT = {
-  rgba: 'rgba(141, 23, 44, 0.48)',
-  swatch: '#8d172c',
-};
-
 // CV — datos compartidos entre idiomas. Los labels de grupo (cv.indiv, etc.)
 // se traducen en copy.ts; las filas son nombres propios y se dejan tal cual.
 export const CV_DATA: Record<string, string[][]> = {
@@ -108,39 +103,6 @@ export const CV_DATA: Record<string, string[][]> = {
   ],
 };
 
-export interface Exhibition {
-  id: string;
-  year: string;
-  title: string;
-  venue: string;
-  city: string;
-  images: string[];
-  url?: string;
-}
-
-export const EXHIBITIONS: Exhibition[] = [
-  { id: 'fotolivros-move-2025',     year: '2025', title: 'Fotolivros e libros de artista',  venue: 'Espacio Move Arte',                 city: 'São Paulo',     images: ['fotolivros-move-2025.jpg', 'fotolivros-move-flyer.jpg'] },
-  { id: 'desdobrando-linhas-2024',  year: '2024', title: 'Desdobrando linhas',               venue: 'Espacio Move Arte',                 city: 'São Paulo',     images: ['desdobrando-linhas-2024.jpg', 'desdobrando-linhas-ig.jpg'] },
-  { id: 'experimentando-olhar',     year: '2024', title: 'Experimentando um olhar de criança em nós', venue: 'Espacio Move Arte',        city: 'São Paulo',     images: ['experimentando-olhar-2024.jpg'] },
-  { id: 'move-24',                  year: '2024', title: 'Move 24',                          venue: 'Espacio Move Arte',                 city: 'São Paulo',     images: ['move-24.jpg'] },
-  { id: 'kentler-2023',             year: '2023', title: '100 works on paper benefit',       venue: 'Kentler International Drawing Space', city: 'Brooklyn, NY', images: ['kentler-2023.jpg', 'kentler-drawing.jpg'] },
-  { id: 'villaggio-2023',           year: '2023', title: 'Encontro de arte Villaggio',       venue: 'Condominio Villaggio Panamby',      city: 'São Paulo',     images: ['villaggio-2023.jpg'] },
-  { id: 'sp-arte-2023',             year: '2023', title: 'Roteiro de ateliês SP Arte',       venue: 'Atelier Lavandería',                city: 'São Paulo',     images: ['sp-arte-2023.jpg'] },
-  { id: 'ale-residencia-2022',      year: '2022', title: 'Residencia artística',             venue: 'Alê Espacio de Arte',               city: 'São Paulo',     images: ['ale-residencia-2022.jpg', 'ale-residencia-2022-b.jpg'] },
-  { id: 'artvilo-2017',             year: '2017', title: 'Primer premio en grabado — Artvilo', venue: 'Municipalidad de Vicente López', city: 'Buenos Aires',  images: ['artvilo-2017.jpg'] },
-  { id: 'soluciones-impresas-2016', year: '2016', title: 'Soluciones Impresas',              venue: 'Exposición individual',             city: 'Buenos Aires',  images: ['soluciones-impresas-2016.jpg'] },
-  { id: 'arte-si-2009',             year: '2009', title: 'Feria Supermercado de Arte — Arte SI', venue: '',                              city: 'Buenos Aires',  images: ['arte-si-2009.jpg'] },
-  { id: 'vademecum',                year: '',     title: 'Libro Vademécum del grabado',      venue: 'Colaboración con Graciela Buratti', city: 'librodearte.com.ar', url: 'https://librodearte.com.ar/libro-vademecum/', images: ['vademecum-libro.jpg', 'vademecum-pagina.jpg'] },
-];
-
-export interface Video {
-  id: string;
-  title: string;
-  poster: string;
-  relatedSeries: SeriesId;
-}
-
-export const VIDEOS: Video[] = [
-  { id: 'te-veo',     title: 'Te veo',     poster: 'te-veo-poster.jpg', relatedSeries: 'aranka' },
-  { id: 'natombresa', title: 'Natombresa', poster: '',                  relatedSeries: 'naturaleza' },
-];
+// Nota: EXHIBITIONS y VIDEOS se removieron (2026-06-05) — Mica quitó las secciones
+// Muestras y Videos del sitio. Las fotos en public/exhibitions/ quedan pendientes de
+// borrado (requiere confirmación). Si vuelven las secciones, recuperar de git history.
