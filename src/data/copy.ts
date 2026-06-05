@@ -98,7 +98,7 @@ export const COPY: Record<Lang, LangCopy> = {
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Radicada en São Paulo desde 2020) es artista visual y profesora de arte con especialidad en grabado. Estudió en el Instituto Superior Santa Ana (ISSA), en Buenos Aires, Argentina.',
-      'A través de un análisis de las relaciones humanas y su relación con el territorio, su producción artística actúa como un dispositivo de memoria: rescata las marcas y cicatrices del pasado para traerlas al presente, exponiéndolas como un espacio activo de pensamiento, diálogo y reparación.',
+      'Atravesada por un interés en las conductas humanas y su relación con el territorio, su producción artística actúa como un dispositivo de memoria: rescata las marcas y cicatrices del pasado, utilizando las fotografías como materia prima de estudio, para traerlas al presente exponiéndolas como un espacio activo de pensamiento, diálogo y reparación.',
       'Artista contemporánea que trabaja en múltiples soportes como el dibujo, el grabado, la pintura, los objetos, el collage y el video, vencedora de varios premios en pintura y grabado en su país, participó en varias exposiciones colectivas en Argentina y Brasil.',
     ],
   },
@@ -129,7 +129,7 @@ export const COPY: Record<Lang, LangCopy> = {
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Based in São Paulo since 2020) is a visual artist and art teacher specialized in printmaking. She studied at the Instituto Superior Santa Ana (ISSA), Buenos Aires, Argentina.',
-      'Through an analysis of human relationships and their connection to the territory, her artistic production operates as a memory device: it rescues the marks and scars of the past and brings them into the present, exposing them as an active space for thought, dialogue and repair.',
+      'Driven by an interest in human behaviors and their relationship with the territory, her artistic production acts as a memory device: it rescues the marks and scars of the past, using photographs as raw material for study, to bring them to the present, exposing them as an active space for thought, dialogue, and reparation.',
       'A contemporary artist working across drawing, printmaking, painting, objects, collage and video, she has won several awards in painting and printmaking in Argentina and has participated in collective exhibitions in Argentina and Brazil.',
     ],
   },
@@ -160,7 +160,7 @@ export const COPY: Record<Lang, LangCopy> = {
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Radicada em São Paulo desde 2020) é artista visual e professora de arte com especialidade em gravura. Estudou no Instituto Superior Santa Ana (ISSA), em Buenos Aires, Argentina.',
-      'A partir de uma análise das relações humanas e sua relação com o território, sua produção artística atua como um dispositivo de memória: resgata as marcas e cicatrizes do passado para trazê-las ao presente, expondo-as como um espaço ativo de pensamento, diálogo e reparação.',
+      'Atravessada por um interesse nos comportamentos humanos e sua relação com o território, sua produção artística atua como um dispositivo de memória: resgata as marcas e cicatrizes do passado, utilizando as fotografias como matéria-prima de estudo, para trazê-las ao presente, expondo-as como um espaço ativo de pensamento, diálogo e reparação.',
       'Artista contemporânea que trabalha em múltiplos suportes como o desenho, a gravura, a pintura, os objetos, a colagem e o vídeo, vencedora de vários prêmios em pintura e gravura em seu país, participou de diversas exposições coletivas na Argentina e no Brasil.',
     ],
   },
