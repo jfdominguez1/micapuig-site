@@ -264,7 +264,7 @@ const seriesLabel: Record<string, string> = {
   }
 
   function visibleCells(): HTMLButtonElement[] {
-    return allCells.filter(c => c.dataset.hidden !== 'true';
+    return allCells.filter(c => c.dataset.hidden !== 'true');
   }
 
   function setView(view: 'works' | 'bio' | 'texts' | 'contact') {
@@ -360,7 +360,7 @@ const seriesLabel: Record<string, string> = {
   }
 
   // ─── listeners ──────────────────────────────────────────────────
-  document.querySelector('[data-action="reset"]')!.addEventListener('click', e => {
+  document.querySelector('[data-action="reset"]').addEventListener('click', e => {
     e.preventDefault();
     reset();
   });
