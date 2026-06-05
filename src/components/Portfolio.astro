@@ -42,16 +42,15 @@ const seriesLabel: Record<string, string> = {
 
 <header class="a-header">
   <div class="a-header__hero">
-    <a class="a-brand" href={langPath(lang)} data-action="reset">Micaela Puig</a>
+    <a class="a-brand" href={langPath(lang)} data-action="reset">micaela puig</a>
     <div class="a-langs">
-      <a class={`a-lang ${lang === 'es' ? 'is-active' : ''}`} href={langPath('es')} hreflang="es">🇦🇷 ES</a>
+      <a class={`a-lang ${lang === 'es' ? 'is-active' : ''}`} href={langPath('es')} hreflang="es">ES</a>
       <span class="a-lang-sep">·</span>
-      <a class={`a-lang ${lang === 'en' ? 'is-active' : ''}`} href={langPath('en')} hreflang="en">🇬🇧 EN</a>
+      <a class={`a-lang ${lang === 'en' ? 'is-active' : ''}`} href={langPath('en')} hreflang="en">EN</a>
       <span class="a-lang-sep">·</span>
-      <a class={`a-lang ${lang === 'pt' ? 'is-active' : ''}`} href={langPath('pt')} hreflang="pt-BR">🇧🇷 PT</a>
+      <a class={`a-lang ${lang === 'pt' ? 'is-active' : ''}`} href={langPath('pt')} hreflang="pt-BR">PT</a>
     </div>
   </div>
-  <p class="a-header__bio">{t.bioShort}</p>
   <nav class="a-header__nav">
     <button class="a-link is-active" data-view="works">{t.tabs.works}</button>
     <span class="a-sep">·</span>
@@ -66,22 +65,6 @@ const seriesLabel: Record<string, string> = {
 <main>
   <section class="a-works is-active" data-view-section="works">
     <h1 class="a-vh">Micaela Puig — {t.bioShort}</h1>
-    <div class="a-works__sub">
-      <button class="is-active" data-series="all">
-        <span>{t.allLabel}</span><span class="a-works__sub-n"> ({WORKS.length})</span>
-      </button>
-      {SERIES.map((s) => {
-        const count = WORKS.filter(w => w.series === s.id).length;
-        return (
-          <>
-            <span class="a-works__sub-sep">·</span>
-            <button data-series={s.id}>
-              <span>{seriesLabel[s.id]}</span><span class="a-works__sub-n"> ({count})</span>
-            </button>
-          </>
-        );
-      })}
-    </div>
 
     <aside class="a-poem-callout" id="poem-callout" hidden>
       <div class="a-poem-callout__inner">
