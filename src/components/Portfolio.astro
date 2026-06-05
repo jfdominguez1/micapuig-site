@@ -166,7 +166,7 @@ const seriesLabel: Record<string, string> = {
   </section>
 </main>
 
-<footer class="a-footer">{t.footer}</footer>
+<footer class="a-footer">{t.footer} <span style="font-size: 0.7rem; opacity: 0.5;">(13c7447)</span></footer>
 
 <div class="mica-modal" id="modal" role="dialog" aria-modal="true" hidden>
   <div class="mica-modal__topbar">
@@ -199,6 +199,41 @@ const seriesLabel: Record<string, string> = {
     <div class="mica-modal__counter" id="modal-counter"></div>
   </div>
 </div>
+
+<style>
+  .a-contact {
+    background-image: url('/contact-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+  }
+
+  .a-contact__row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .a-contact__row:last-child {
+    margin-bottom: 0;
+  }
+
+  .a-contact__row a {
+    font-size: 20px;
+    line-height: 1;
+    margin-left: 12px;
+  }
+
+  .a-contact__row svg {
+    width: 22px;
+    height: 22px;
+  }
+</style>
 
 <script>
   // ─── Toggle de idioma → redirige al click (no re-render JS)
@@ -360,7 +395,7 @@ const seriesLabel: Record<string, string> = {
   }
 
   // ─── listeners ──────────────────────────────────────────────────
-  document.querySelector('[data-action="reset"]').addEventListener('click', e => {
+  document.querySelector('[data-action="reset"]')!.addEventListener('click', e => {
     e.preventDefault();
     reset();
   });
