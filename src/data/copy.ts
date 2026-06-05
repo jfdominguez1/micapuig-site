@@ -94,7 +94,7 @@ export const COPY: Record<Lang, LangCopy> = {
     series: { aranka: 'Aranka', infancia: 'Infancia', naturaleza: 'Naturaleza' },
     poemContext: 'Sobre la serie',
     modal: { close: 'Cerrar', prev: 'Anterior', next: 'Siguiente' },
-    contact: { city: 'São Paulo · Brasil', mail: 'mp@micaelapuig.com' },
+    contact: { city: '', mail: 'mp@micaelapuig.com' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Radicada en São Paulo desde 2020) es artista visual y profesora de arte con especialidad en grabado. Estudió en el Instituto Superior Santa Ana (ISSA), en Buenos Aires, Argentina.',
@@ -125,7 +125,7 @@ export const COPY: Record<Lang, LangCopy> = {
     series: { aranka: 'Aranka', infancia: 'Childhood', naturaleza: 'Nature' },
     poemContext: 'About the series',
     modal: { close: 'Close', prev: 'Previous', next: 'Next' },
-    contact: { city: 'São Paulo · Brazil', mail: 'mp@micaelapuig.com' },
+    contact: { city: '', mail: 'mp@micaelapuig.com' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Based in São Paulo since 2020) is a visual artist and art teacher specialized in printmaking. She studied at the Instituto Superior Santa Ana (ISSA), Buenos Aires, Argentina.',
@@ -156,7 +156,7 @@ export const COPY: Record<Lang, LangCopy> = {
     series: { aranka: 'Aranka', infancia: 'Infância', naturaleza: 'Natureza' },
     poemContext: 'Sobre a série',
     modal: { close: 'Fechar', prev: 'Anterior', next: 'Seguinte' },
-    contact: { city: 'São Paulo · Brasil', mail: 'mp@micaelapuig.com' },
+    contact: { city: '', mail: 'mp@micaelapuig.com' },
     footer: '© 2026 Micaela Puig · São Paulo',
     statement: [
       'Micaela Puig (Argentina, 1976. Radicada em São Paulo desde 2020) é artista visual e professora de arte com especialidade em gravura. Estudou no Instituto Superior Santa Ana (ISSA), em Buenos Aires, Argentina.',
