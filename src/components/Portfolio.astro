@@ -50,16 +50,16 @@ const seriesLabel: Record<string, string> = {
       <span class="a-lang-sep">·</span>
       <a class={`a-lang ${lang === 'pt' ? 'is-active' : ''}`} href={langPath('pt')} hreflang="pt-BR">PT</a>
     </div>
+    <nav class="a-header__nav">
+      <button class="a-link is-active" data-view="works">{t.tabs.works}</button>
+      <span class="a-sep">·</span>
+      <button class="a-link" data-view="bio">{t.tabs.bio}</button>
+      <span class="a-sep">·</span>
+      <button class="a-link" data-view="texts">{t.tabs.texts}</button>
+      <span class="a-sep">·</span>
+      <button class="a-link" data-view="contact">{t.tabs.contact}</button>
+    </nav>
   </div>
-  <nav class="a-header__nav">
-    <button class="a-link is-active" data-view="works">{t.tabs.works}</button>
-    <span class="a-sep">·</span>
-    <button class="a-link" data-view="bio">{t.tabs.bio}</button>
-    <span class="a-sep">·</span>
-    <button class="a-link" data-view="texts">{t.tabs.texts}</button>
-    <span class="a-sep">·</span>
-    <button class="a-link" data-view="contact">{t.tabs.contact}</button>
-  </nav>
 </header>
 
 <main>
