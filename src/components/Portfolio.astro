@@ -206,12 +206,15 @@ const seriesLabel: Record<string, string> = {
     background-position: center;
     margin-top: 1.5cm;
     padding: 10rem 2rem 3rem;
-    display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
     min-height: 300px;
   }
+
+  /* display:flex solo cuando la vista está activa; si no, gana
+     [data-view-section]{display:none} y el contacto no aparece en Obra/Bio/Textos */
+  [data-view-section].is-active.a-contact { display: flex; }
 
   .a-contact__row {
     display: flex;
