@@ -498,7 +498,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   .a-poem-callout { padding: 20px 18px; margin-bottom: 28px; }
   .a-poem-callout__title { font-size: 16px; }
   .a-poem-callout__lines p { font-size: 14px; }
-  .a-contact { padding: 5rem 22px; }
+  .a-contact { padding: 5rem 22px 2.5rem; }
   .a-grid { column-gap: var(--grid-gap); }
   .a-cell { margin-bottom: var(--grid-gap); }
 
