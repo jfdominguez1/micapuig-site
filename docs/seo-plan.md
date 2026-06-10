@@ -1,7 +1,7 @@
 # Plan SEO — micapuig-site
 
-Fecha actualización: 2026-05-25
-Estado: **Capa 1 ✅ completa — Capa 2 pendiente**
+Fecha actualización: 2026-06-10
+Estado: **Capa 1 ✅ — Capa 2 en curso (GSC + Analytics + metadata + bio IG ✅; faltan backlinks + bio EN/PT)**
 Dominio live: https://micaelapuig.com (Cloudflare Workers, auto-deploy desde GitHub)
 
 ---
@@ -33,13 +33,13 @@ Dominio live: https://micaelapuig.com (Cloudflare Workers, auto-deploy desde Git
 
 ## 🟡 Capa 2 — Lo hace Mica / vos (próximas semanas)
 
-- [ ] **Google Search Console**: verificar `micaelapuig.com` vía DNS (TXT en Cloudflare) + submit sitemap `https://micaelapuig.com/sitemap-index.xml`
-- [ ] **Bio Instagram**: agregar `micaelapuig.com` en la bio de @micapuig (backlink de alto DA, impacto inmediato)
+- [x] **Google Search Console** ✅ 2026-06-10: propiedad tipo Dominio verificada (auto vía integración Cloudflare, TXT `google-site-verification=G40sH96…`) + sitemap enviado (`https://micaelapuig.com/sitemap-index.xml`, 3 URLs) + indexación solicitada. **Indexación efectiva: revisar a los ~3-7 días** (Inspección de URLs → "La URL está en Google").
+- [x] **Bio Instagram** ✅ 2026-06-10: Mica agregó `micaelapuig.com` en la bio de @micapuig. Verificar tráfico en Cloudflare Analytics → Referrers.
 - [ ] **Backlinks institucionales**: mail a Alê Espacio de Arte, Kentler International Drawing Space (Brooklyn), ISSA — pedir que la listan con link
 - [ ] **Move Arte**: si tienen directorio de artistas, pedir inclusión
-- [ ] Bio + statement reales en EN y PT (hoy son traducciones nuestras)
-- [ ] Metadata por obra: técnica + medidas + año real (hoy vacío en works.ts)
-- [ ] Decidir analytics: Plausible Cloud (€9/mes, sin cookies) o GA4 (gratis, con cookies + banner)
+- [ ] Bio + statement reales en EN y PT (hoy son traducciones nuestras) — **pendiente Mica** (ver inventario de traducción `docs/inventario-traduccion-micapuig-2026-06-10.pdf`, decisión 4)
+- [x] Metadata por obra: técnica + medidas + año ✅ 2026-06-10 (set definitivo 18 obras, datos del Excel de Mica en `works.ts`). Falta traducción técnica EN/PT (ver inventario, decisión 1).
+- [x] Analytics ✅ 2026-06-10: **Cloudflare Web Analytics** (gratis, sin cookies, sin banner; ya activo por estar el sitio proxied). Descartado Plausible/GA4. Core Web Vitals 100% Good (LCP P75 1,9s).
 
 ## 🔴 Capa 3 — Largo plazo (constante)
 
@@ -55,7 +55,7 @@ Dominio live: https://micaelapuig.com (Cloudflare Workers, auto-deploy desde Git
 
 ## 🔵 Técnico pendiente
 
-- [ ] WebP: convertir las 26 imágenes JPG a WebP con `<picture>` fallback (mejora Core Web Vitals ~30%)
+- [~] WebP: las 18 obras se optimizaron a máx 2000px / JPEG q82 (63MB→4.9MB, 2026-06-10). WebP con `<picture>` fallback queda como mejora futura (menos urgente ahora que LCP P75=1,9s "Good").
 - [ ] Limpiar `public/preview/` legacy (~216KB no usados)
 - [ ] PDF dossier para el botón de descarga en Contacto
 
