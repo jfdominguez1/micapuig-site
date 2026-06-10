@@ -18,12 +18,6 @@ const cvEntries: [string, string[][]][] = cvOrder
   .map(k => [k, CV_DATA[k]]);
 
 const dim = (path: string): { w?: number; h?: number } => IMG_DIMS[path] ?? {};
-
-const seriesLabel: Record<string, string> = {
-  aranka: t.series.aranka,
-  infancia: t.series.infancia,
-  naturaleza: t.series.naturaleza,
-};
 ---
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
   <defs>
@@ -81,15 +75,16 @@ const seriesLabel: Record<string, string> = {
       {WORKS.map((w, i) => {
         const path = `images/${w.image}`;
         const d = dim(path);
-        const alt = `${w.title} — ${seriesLabel[w.series]}, Micaela Puig (${w.year})`;
+        const alt = w.year
+          ? `${w.title} — Micaela Puig (${w.year})`
+          : `${w.title} — Micaela Puig`;
         return (
           <button
             class="mica-cell a-cell"
-            data-series={w.series}
             data-title={w.title}
             data-technique={w.technique}
             data-dimensions={w.dimensions}
-            data-year={w.year}
+            data-year={w.year ?? ''}
             data-aspect={w.aspect}
             aria-label={alt}
           >
@@ -169,7 +164,6 @@ const seriesLabel: Record<string, string> = {
 
 <div class="mica-modal" id="modal" role="dialog" aria-modal="true" hidden>
   <div class="mica-modal__topbar">
-    <span class="mica-modal__serie" id="modal-serie"></span>
     <button class="mica-modal__close" data-action="close-modal" aria-label={t.modal.close}>
       <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
         <path d="M1 1 L13 13 M13 1 L1 13" stroke="currentColor" stroke-width="1" fill="none" />
@@ -281,20 +275,11 @@ const seriesLabel: Record<string, string> = {
   const grid = document.getElementById('grid')!;
   const allCells = Array.from(grid.querySelectorAll<HTMLButtonElement>('.a-cell'));
   const modal = document.getElementById('modal')!;
-  const modalSerie = document.getElementById('modal-serie')!;
   const modalSheetContent = document.getElementById('modal-sheet-content')!;
   const modalTitle = document.getElementById('modal-title')!;
   const modalTech = document.getElementById('modal-tech')!;
   const modalMeta = document.getElementById('modal-meta')!;
   const modalCounter = document.getElementById('modal-counter')!;
-
-  // Mapeo serie → label localizado, leído del botón del filtro
-  function seriesLabel(seriesId: string): string {
-    const btn = document.querySelector<HTMLButtonElement>(`.a-works__sub [data-series="${seriesId}"]`);
-    if (!btn) return seriesId;
-    const span = btn.querySelector('span');
-    return span?.textContent?.trim() ?? seriesId;
-  }
 
   function visibleCells(): HTMLButtonElement[] {
     return allCells.filter(c => c.dataset.hidden !== 'true');
@@ -311,24 +296,7 @@ const seriesLabel: Record<string, string> = {
     closeModal();
   }
 
-  function setSeries(seriesId: string) {
-    document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
-      btn.classList.toggle('is-active', btn.dataset.series === seriesId);
-    });
-    const callout = document.getElementById('poem-callout');
-    if (callout) callout.hidden = seriesId !== 'aranka';
-    grid.style.opacity = '0';
-    setTimeout(() => {
-      allCells.forEach(cell => {
-        const match = seriesId === 'all' || cell.dataset.series === seriesId;
-        cell.dataset.hidden = match ? 'false' : 'true';
-      });
-      grid.style.opacity = '';
-    }, 150);
-  }
-
   function reset() {
-    setSeries('all');
     setView('works');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -354,7 +322,6 @@ const seriesLabel: Record<string, string> = {
     if (index < 0 || index >= cells.length) return;
     currentIndex = index;
     const cell = cells[index];
-    modalSerie.textContent = seriesLabel(cell.dataset.series!);
     modalTitle.textContent = cell.dataset.title!.toUpperCase();
     modalTech.textContent = cell.dataset.technique || '';
     const dims = cell.dataset.dimensions || '';
@@ -400,10 +367,6 @@ const seriesLabel: Record<string, string> = {
 
   document.querySelectorAll<HTMLButtonElement>('.a-header [data-view]').forEach(btn => {
     btn.addEventListener('click', () => setView(btn.dataset.view as any));
-  });
-
-  document.querySelectorAll<HTMLButtonElement>('.a-works__sub [data-series]').forEach(btn => {
-    btn.addEventListener('click', () => setSeries(btn.dataset.series!));
   });
 
   allCells.forEach(cell => {

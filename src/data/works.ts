@@ -3,55 +3,38 @@
 
 export type Aspect = 'vertical' | 'horizontal' | 'square';
 
-export const SERIES = [
-  { id: 'infancia',   label: 'Infancia' },
-  { id: 'naturaleza', label: 'Naturaleza' },
-  { id: 'aranka',     label: 'Aranka' },
-] as const;
-
-export type SeriesId = typeof SERIES[number]['id'];
-
 export interface Work {
   id: number;
   title: string;
-  series: SeriesId;
-  year: number;
+  year?: number;        // opcional: algunas obras no tienen año confirmado
   technique: string;
   dimensions: string;
-  aspect: Aspect;
+  aspect: Aspect;       // forma de la FOTO (no de la obra) — define el layout en la grilla
   image: string;
 }
 
+// Set definitivo de obra (2026-06-10). Metadata de Mica: "Info cuadros web.xlsx".
+// Sin series/colecciones (Mica no las asignó) → grilla plana, orden del Excel.
+// aspect calculado del ratio de píxeles de cada foto.
 export const WORKS: Work[] = [
-  // Set inicial (2026-05-18)
-  { id: 1,  image: 'aranka-dialogo-en-rojo.jpg',    series: 'aranka',     title: 'Diálogo en rojo',         year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 2,  image: 'aranka-dialogo-en-blanco.jpg',  series: 'aranka',     title: 'Diálogo en blanco',       year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 3,  image: 'aranka-hermanas-1.jpg',         series: 'aranka',     title: 'Hermanas I',              year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 4,  image: 'aranka-hermanas-2.jpg',         series: 'aranka',     title: 'Hermanas II',             year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 5,  image: 'aranka-aurelia-xilo.jpg',       series: 'aranka',     title: 'Aurelia Aranka',          year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 6,  image: 'aranka-cuello-ellas.jpg',       series: 'aranka',     title: 'Cuello ellas',            year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 7,  image: 'aranka-madre-e-hija.jpg',       series: 'aranka',     title: 'Madre e hija',            year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 8,  image: 'infancia-tabula.jpg',           series: 'infancia',   title: 'Tabula. Tabula. Tabula',  year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 9,  image: 'infancia-ausentes.jpg',         series: 'infancia',   title: 'Ausentes',                year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 10, image: 'infancia-barro-ii.jpg',         series: 'infancia',   title: 'Barro II',                year: 2024, technique: '', dimensions: '', aspect: 'square'   },
-  { id: 11, image: 'infancia-la-cueva.jpg',         series: 'infancia',   title: 'La cueva',                year: 2024, technique: '', dimensions: '', aspect: 'square'   },
-  { id: 12, image: 'infancia-pincha-el-coral.jpg',  series: 'infancia',   title: 'Pincha el coral',         year: 2024, technique: '', dimensions: '', aspect: 'square'   },
-  { id: 13, image: 'infancia-maia.jpg',             series: 'infancia',   title: 'Maia',                    year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 14, image: 'infancia-triciclo.jpg',         series: 'infancia',   title: 'Triciclo',                year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 15, image: 'naturaleza-entramado.jpg',      series: 'naturaleza', title: 'Entramado',               year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 16, image: 'naturaleza-rodeada-2.jpg',      series: 'naturaleza', title: 'Rodeada 2',               year: 2024, technique: '', dimensions: '', aspect: 'vertical' },
-  { id: 17, image: 'naturaleza-sin-titulo.jpg',     series: 'naturaleza', title: 'Sin título',              year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
-
-  // 2026-05-24 (sprint 2)
-  { id: 18, image: 'aranka-te-veo.jpg',             series: 'aranka',     title: 'Te veo I, II, III',       year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
-  { id: 19, image: 'aranka-hermanas.jpg',           series: 'aranka',     title: 'Hermanas',                year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
-  { id: 20, image: 'aranka-diptico-blanco-rojo.jpg',series: 'aranka',     title: 'Díptico en blanco y rojo',year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
-  { id: 21, image: 'aranka-ronda-redonda.jpg',      series: 'aranka',     title: 'La ronda redonda',        year: 2024, technique: '', dimensions: '', aspect: 'square'   },
-  { id: 22, image: 'aranka-diptico-aurelia.jpg',    series: 'aranka',     title: 'Díptico Aurelia Aranka',  year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
-  { id: 23, image: 'infancia-escuela.jpg',          series: 'infancia',   title: 'Escuela',                 year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
-  { id: 24, image: 'infancia-juega.jpg',            series: 'infancia',   title: 'Juega I y II',            year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
-  { id: 25, image: 'infancia-nube.jpg',             series: 'infancia',   title: 'Nube',                    year: 2024, technique: '', dimensions: '', aspect: 'square'   },
-  { id: 26, image: 'naturaleza-hoja.jpg',           series: 'naturaleza', title: 'Hoja',                    year: 2024, technique: '', dimensions: '', aspect: 'horizontal' },
+  { id: 1,  image: 'al-cuello.jpg',                   title: 'Al cuello',         year: 2022, technique: 'Cuello de camisa antiguo y pintura acrílica',                                                              dimensions: '14 cm x 14 cm',         aspect: 'vertical'   },
+  { id: 2,  image: 'aurelia-aranka.jpg',              title: 'Aurelia/Aranka',    year: 2022, technique: 'Xilografía sobre papel de algodón 300gr.',                                                                  dimensions: '61 cm x 35,5 cm',       aspect: 'vertical'   },
+  { id: 3,  image: 'ausente.jpg',                     title: 'Ausente',           year: 2020, technique: 'Punta seca, calado, collage sobre hoja de algodón',                                                         dimensions: '70 cm x 50 cm',         aspect: 'vertical'   },
+  { id: 4,  image: 'burbuja.jpg',                     title: 'Burbuja',           year: 2024, technique: 'Dibujo en papel y objetos en caja de madera',                                                              dimensions: '15 cm x 15 cm',         aspect: 'square'     },
+  { id: 5,  image: 'hermanas.jpg',                    title: 'Hermanas',                      technique: 'Dibujo en papel y objetos',                                                                                 dimensions: '12 cm x 24 cm x 3 cm',  aspect: 'horizontal' },
+  { id: 6,  image: 'juega-i-y-ii.jpg',                title: 'Juega I y Juega II',year: 2024, technique: 'Grafito sobre papel y madera',                                                                               dimensions: '12 cm x 10 cm',         aspect: 'horizontal' },
+  { id: 7,  image: 'vueltas.jpg',                     title: 'Vueltas',           year: 2022, technique: 'Díptico, monocopia y gofrado en papel de algodón',                                                         dimensions: '26 cm x 36 cm',         aspect: 'square'     },
+  { id: 8,  image: 'madre-e-hija.jpg',                title: 'Madre e hija',      year: 2026, technique: 'Dibujo con lápiz de color y relieve en papel de algodón',                                                  dimensions: '36 cm x 26 cm',         aspect: 'vertical'   },
+  { id: 9,  image: 'sin-titulo-diptico-blanco-rojo.jpg', title: 'sin título',     year: 2022, technique: 'Díptico, monocopia en Gelliplate',                                                                          dimensions: '36 cm x 52 cm',         aspect: 'horizontal' },
+  { id: 10, image: 'tabula-rasa-ii.jpg',              title: 'Tabula rasa II',    year: 2018, technique: 'Collage de fotograbado y punta seca',                                                                       dimensions: '38 cm x 28,5 cm',       aspect: 'vertical'   },
+  { id: 11, image: 'barro.jpg',                       title: 'Barro',             year: 2026, technique: 'Dibujo en papel y objetos',                                                                                 dimensions: '10 cm x 10 cm x 3 cm',  aspect: 'square'     },
+  { id: 12, image: 'la-cueva.jpg',                    title: 'La cueva',                      technique: 'Dibujo en papel y objetos',                                                                                 dimensions: '10 cm x 10 cm x 3 cm',  aspect: 'square'     },
+  { id: 13, image: 'pincha-el-coral.jpg',             title: 'Pincha el coral',   year: 2024, technique: 'Dibujo en papel y objetos',                                                                                 dimensions: '12 cm x 12 cm x 3 cm',  aspect: 'square'     },
+  { id: 14, image: 'simbiosis.jpg',                   title: 'Simbiosis',         year: 2021, technique: 'Collage, grabado en punta seca en Tetrapak y dibujo con lápices de colores sobre papel de algodón',     dimensions: '56 cm x 76 cm',         aspect: 'horizontal' },
+  { id: 15, image: 'rodeada.jpg',                     title: 'Rodeada',           year: 2021, technique: 'Punta seca con Tetrapak',                                                                                   dimensions: '38 cm x 29 cm',         aspect: 'vertical'   },
+  { id: 16, image: 'sos-un-seis.jpg',                 title: 'Sos un seis',       year: 2018, technique: 'Fotograbado y relieve sobre papel de algodón',                                                            dimensions: '35 cm x 46 cm',         aspect: 'horizontal' },
+  { id: 17, image: 'tramado.jpg',                     title: 'Tramado',           year: 2021, technique: 'Monocopia y lápiz de color sobre papel',                                                                   dimensions: '57,5 cm x 38 cm',       aspect: 'vertical'   },
+  { id: 18, image: 'revelo.jpg',                      title: 'Revelo',            year: 2022, technique: 'Tríptico, monocopia sobre papel de algodón con grafito',                                                  dimensions: '10 cm x 22,5 cm',       aspect: 'horizontal' },
 ];
 
 // CV — datos compartidos entre idiomas. Los labels de grupo (cv.indiv, etc.)
