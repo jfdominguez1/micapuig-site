@@ -18,6 +18,8 @@ export interface LangCopy {
   htmlLang: string;
   metaTitle: string;
   metaDescription: string;
+  metaKeywords: string;
+  ogImageAlt: string;
   tabs: { works: string; bio: string; texts: string; contact: string };
   bioShort: string;
   bioTitle: string;
@@ -76,6 +78,8 @@ export const COPY: Record<Lang, LangCopy> = {
     htmlLang: 'es',
     metaTitle: 'Micaela Puig — Artista visual y grabadora · São Paulo',
     metaDescription: 'Portfolio de Micaela Puig: artista visual y profesora de arte con especialidad en grabado. Obra, muestras, statement y CV. São Paulo, Brasil.',
+    metaKeywords: 'Micaela Puig, artista visual, grabadora, grabado contemporáneo, arte contemporáneo, São Paulo, Argentina',
+    ogImageAlt: 'Micaela Puig — artista visual y grabadora',
     tabs: { works: 'Obra', bio: 'Bio', texts: 'Textos', contact: 'Contacto' },
     bioShort: 'Artista visual y profesora de arte con especialidad en grabado.',
     bioTitle: '',
@@ -107,6 +111,8 @@ export const COPY: Record<Lang, LangCopy> = {
     htmlLang: 'en',
     metaTitle: 'Micaela Puig — Visual artist & printmaker · São Paulo',
     metaDescription: 'Portfolio of Micaela Puig: visual artist and art teacher specialized in printmaking. Works, exhibitions, statement and CV. Based in São Paulo, Brazil.',
+    metaKeywords: 'Micaela Puig, visual artist, printmaker, contemporary printmaking, contemporary art, São Paulo, Argentina',
+    ogImageAlt: 'Micaela Puig — visual artist and printmaker',
     tabs: { works: 'Works', bio: 'Bio', texts: 'Texts', contact: 'Contact' },
     bioShort: 'Visual artist and art teacher, specialized in printmaking.',
     bioTitle: '',
@@ -138,6 +144,8 @@ export const COPY: Record<Lang, LangCopy> = {
     htmlLang: 'pt-BR',
     metaTitle: 'Micaela Puig — Artista visual e gravadora · São Paulo',
     metaDescription: 'Portfólio de Micaela Puig: artista visual e professora de arte com especialidade em gravura. Obra, mostras, statement e currículo. São Paulo, Brasil.',
+    metaKeywords: 'Micaela Puig, artista visual, gravadora, gravura contemporânea, arte contemporânea, São Paulo, Argentina',
+    ogImageAlt: 'Micaela Puig — artista visual e gravadora',
     tabs: { works: 'Obra', bio: 'Bio', texts: 'Textos', contact: 'Contato' },
     bioShort: 'Artista visual e professora de arte com especialidade em gravura.',
     bioTitle: '',

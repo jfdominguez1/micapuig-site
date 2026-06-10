@@ -49,7 +49,7 @@ const personLD = {
 
     <title>{t.metaTitle}</title>
     <meta name="description" content={t.metaDescription} />
-    <meta name="keywords" content="Micaela Puig, artista visual, grabadora, São Paulo, grabado contemporáneo, printmaker, arte contemporáneo" />
+    <meta name="keywords" content={t.metaKeywords} />
     <meta name="author" content="Micaela Puig" />
 
     <link rel="canonical" href={canonical} />
@@ -67,7 +67,7 @@ const personLD = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Micaela Puig — díptico en blanco y rojo, serie Aranka" />
+    <meta property="og:image:alt" content={t.ogImageAlt} />
     <meta property="profile:first_name" content="Micaela" />
     <meta property="profile:last_name" content="Puig" />
     <meta property="profile:username" content="micapuig" />
